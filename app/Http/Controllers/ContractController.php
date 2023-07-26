@@ -26,6 +26,7 @@ class ContractController extends Controller
         $contracts = Contract::all();
         $employees = Employee::all();
         $positions = Position::all();
+        // return response()->json($contracts);
         return view('contracts.index', compact('contracts','employees','positions'));
     }
 
@@ -37,7 +38,7 @@ class ContractController extends Controller
         //
         $employees = Employee::select('employee_id','name','last_name1','last_name2')->where('status_id','=','1')->get();
         $secretaries = Secretary::select('secretary_id','name','status_id')->where('status_id','=','1')->get();
-        $type_contracts = TypeContract::all();
+        $type_contracts = TypeContract::select('type_contract_id','key','name','status_id')->where('status_id','=','1')->get();
         $status_contracts = StatusContract::all();
         return view('contracts.create', compact('employees','secretaries','type_contracts','status_contracts'));
     }
@@ -48,10 +49,14 @@ class ContractController extends Controller
     public function store(StoreContractRequest $request)
     {
         //
-        $contracts = $request->except('_token','secretary','undersecreatries','managements','units','department_id');
-        // return response()->json($contracts);
-        Contract::insert($contracts);
-        return view('contracts.index');
+        $contracts = Contract::all();
+        $employees = Employee::all();
+        $positions = Position::all();
+        $contract = $request->except('_token','secretary','undersecreatries','managements','units','department_id');
+        // return response()->json($contract);
+        Contract::insert($contract);
+        // return view('contracts.index', compact('contracts','employees','positions'));
+        return redirect()->route('contracts.index');
     }
 
     /**

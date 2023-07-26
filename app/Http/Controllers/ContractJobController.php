@@ -45,7 +45,8 @@ class ContractJobController extends Controller
         $contract_jobs = $request->except('_token','employee');
         // return response()->json($contract_jobs);
         ContractJob::insert($contract_jobs);
-        return view('contract_jobs.index');
+        //return view('contract_jobs.index');
+        return redirect()->route('contract_jobs.index');
     }
 
     /**

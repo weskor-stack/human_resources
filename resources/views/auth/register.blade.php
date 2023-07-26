@@ -7,7 +7,7 @@
 
         <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}"  style="background-image: url('./img/mosaicofondo-2.png')">
             @csrf
 
             <div>

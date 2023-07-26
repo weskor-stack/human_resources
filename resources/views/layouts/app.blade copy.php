@@ -21,9 +21,6 @@
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
-        <div class="p-0 sm:ml-64">
-        <div class="p-0">
-        
         <x-banner />
 
         <div class="min-h-screen bg-gray-100" style="background-image: url('http://localhost/human_resources/public/img/fondo.png')">
@@ -32,14 +29,14 @@
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow" style="background-image: url('http://localhost/human_resources/public/img/encabezado.png')">
-                    <div class="max-w-7xl mx-auto py-7 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
             @endif
 
             <!-- Page Content -->
-            <main class="p-0 sm:ml-50">
+            <main>
                 {{ $slot }}
             </main>
         </div>
@@ -47,8 +44,6 @@
         @stack('modals')
 
         @livewireScripts
-        </div>
-        </div> 
     </body>
     <footer style="background-image: url('http://localhost/human_resources/public/img/pie.png')">
         <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">

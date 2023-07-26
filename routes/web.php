@@ -47,4 +47,20 @@ Route::middleware([
     Route::get('get-contracts', [\App\Http\Controllers\DropdownController::class, 'getContracts'])->name('getContracts');
     Route::get('get-typecontracts', [\App\Http\Controllers\DropdownController::class, 'getTypeContracts'])->name('getTypeContracts');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////// Limpiar cache ///////////////////////////////////////////////////////////////////////
+    Route::get('/clear-cache', function () {
+        echo Artisan::call('config:clear');
+        echo Artisan::call('config:cache');
+        echo Artisan::call('cache:clear');
+        echo Artisan::call('route:clear');
+        return view('welcome');
+        /**
+         * php artisan config:clear
+         * php artisan config:cache
+         * php artisan cache:clear
+         * php artisan route:clear
+         */
+    });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
