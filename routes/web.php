@@ -34,6 +34,10 @@ Route::middleware([
     Route::resource('contracts', \App\Http\Controllers\ContractController::class);
     Route::resource('contract_jobs', \App\Http\Controllers\ContractJobController::class);
 
+    Route::resource('payrolls', \App\Http\Controllers\PayrollController::class);
+    Route::resource('payroll_deductions', \App\Http\Controllers\PayrollDeductionController::class);
+    Route::resource('payroll_perceptions', \App\Http\Controllers\PayrollPerceptionController::class);
+
 /////////////////////////////////////////////////////////// Dropdown ///////////////////////////////////////////////////////////////////////
     Route::get('dropdown', [\App\Http\Controllers\DropdownController::class, 'view']);
     Route::get('get-unders', [\App\Http\Controllers\DropdownController::class, 'getUndersecretary'])->name('getUndersecretary');
