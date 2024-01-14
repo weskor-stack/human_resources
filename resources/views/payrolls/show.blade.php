@@ -22,12 +22,12 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Start date') }}:</strong>
+                        <strong>{{ __('Fecha inicial') }}:</strong>
                         <x-label value="{{ $payroll->start_date }}" />
                     </div>
 
                     <div>
-                        <strong>{{ __('End date') }}:</strong>
+                        <strong>{{ __('Fecha final') }}:</strong>
                         <x-label value="{{ $payroll->end_date }}" />
                     </div>
 

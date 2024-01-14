@@ -27,7 +27,6 @@ class StoreContractRequest extends FormRequest
             'position_id' => 'required',
             'type_contract_id' => 'required',
             'start_date' => 'required',
-            'check_attendance' => 'required',
             'status_contract_id' => 'required',
         ];
     }

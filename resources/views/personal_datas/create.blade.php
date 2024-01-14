@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Add New Data') }}
+            {{ __('Datos personales') }}
         </h2>
     </x-slot>
  
@@ -15,9 +15,9 @@
                         @csrf
  
                         <div>
-                        <x-label for="employee_id" value="{{ __('Employee') }}" />
+                        <x-label for="employee_id" value="{{ __('Empleado') }}" />
                             <select id="employee_id" name="employee_id" :value="old('employee_id')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>Choose an employee</option>
+                                <option selected>Seleccionar un empleado</option>
                                 @foreach ($employees as $employee)
                                     <option value="{{$employee->employee_id}}">{{ $employee->name }} {{ $employee->last_name1 }} {{ $employee->last_name2 }}</option>
                                 @endforeach
@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="relative max-w-sm">
-                            <x-label for="date_birth" value="{{ __('Date birth') }}" />
+                            <x-label for="date_birth" value="{{ __('Fecha de nacimiento') }}" />
                             <!-- x-input id="date_birth" class="block mt-1 w-full" type="text" name="date_birth" :value="old('date_birth')" required autofocus autocomplete="date_birth" /-->
                             <!-- x-input datepicker type="text" id="date_birth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="date_birth" required placeholder="Select date"-->
                             @props(['options' => "{dateFormat:'Y-m-d', altFormat:'F j, Y', altInput:true, }"])
@@ -39,27 +39,27 @@
 
                         <div>
                             <x-label for="nss" value="{{ __('NSS') }}" />
-                            <x-input id="nss" class="block mt-1 w-full" type="text" name="nss" :value="old('nss')" required autofocus autocomplete="nss" />
+                            <x-input id="nss" class="block mt-1 w-full" maxlength="10" type="text" name="nss" :value="old('nss')"  autofocus autocomplete="nss" />
                         </div>
                         
                         <div>
                             <x-label for="rfc" value="{{ __('RFC') }}" />
-                            <x-input id="rfc" class="block mt-1 w-full" type="text" name="rfc" :value="old('rfc')" required autofocus autocomplete="rfc" />
+                            <x-input id="rfc" class="block mt-1 w-full" oninput="this.value = this.value.toUpperCase()" maxlength="15" type="text" name="rfc" :value="old('rfc')" required autofocus autocomplete="rfc" />
                         </div>
 
                         <div>
                             <x-label for="curp" value="{{ __('CURP') }}" />
-                            <x-input id="curp" class="block mt-1 w-full" type="text" name="curp" :value="old('curp')" required autofocus autocomplete="curp" />
+                            <x-input id="curp" class="block mt-1 w-full" oninput="this.value = this.value.toUpperCase()" maxlength="25" type="text" name="curp" :value="old('curp')"  autofocus autocomplete="curp" />
                         </div>
 
                         <div hidden>
                             <x-label for="user_id" value="{{ __('User') }}" />
-                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="9999" />
+                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="{{ Auth::user()->id }}" />
                         </div>
  
                         <div class="flex mt-4">
                             <x-button>
-                                {{ __('Save Employee') }}
+                                {{ __('Aceptar') }}
                             </x-button>
                         </div>
                 </div>

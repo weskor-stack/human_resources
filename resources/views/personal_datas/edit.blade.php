@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Edit Employee') }}
+            {{ __('Edita datos') }}
         </h2>
     </x-slot>
  
@@ -16,7 +16,7 @@
                         @method('PUT')
  
                         <div>
-                            <x-label for="employee_id" value="{{ __('Employee') }}" />
+                            <x-label for="employee_id" value="{{ __('Empleado') }}" />
                             <div hidden>
                                 <x-input id="employee_id" class="block mt-1 w-full" type="text" name="employee_id" :value="$personal_data->employee_id" required autofocus autocomplete="last_name1"/>
                             </div>
@@ -28,7 +28,7 @@
                         </div>
                         
                         <div class="relative max-w-sm">
-                            <x-label for="date_birth" value="{{ __('Date birth') }}" />
+                            <x-label for="date_birth" value="{{ __('Fechade nacimiento') }}" />
                             <!-- x-input id="date_birth" class="block mt-1 w-full" type="text" name="date_birth" :value="old('date_birth')" required autofocus autocomplete="date_birth" /-->
                             <!-- x-input datepicker type="text" id="date_birth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="date_birth" required placeholder="Select date"-->
                             @props(['options' => "{dateFormat:'Y-m-d', altFormat:'F j, Y', altInput:true, }"])
@@ -42,33 +42,34 @@
 
                         <div>
                             <x-label for="nss" value="{{ __('NSS') }}" />
-                            <x-input id="nss" class="block mt-1 w-full" type="text" name="nss" :value="$personal_data->nss" required autofocus autocomplete="nss" />
+                            <x-input id="nss" class="block mt-1 w-full" type="text" name="nss" :value="$personal_data->nss"  autofocus autocomplete="nss" />
                         </div>
                         
                         <div>
                             <x-label for="rfc" value="{{ __('RFC') }}" />
-                            <x-input id="rfc" class="block mt-1 w-full" type="text" name="rfc" :value="$personal_data->rfc" required autofocus autocomplete="rfc" />
+                            <x-input id="rfc" class="block mt-1 w-full" oninput="this.value = this.value.toUpperCase()" type="text" name="rfc" :value="$personal_data->rfc" required autofocus autocomplete="rfc" />
                         </div>
 
                         <div>
                             <x-label for="curp" value="{{ __('CURP') }}" />
-                            <x-input id="curp" class="block mt-1 w-full" type="text" name="curp" :value="$personal_data->curp" required autofocus autocomplete="curp" />
+                            <x-input id="curp" class="block mt-1 w-full" oninput="this.value = this.value.toUpperCase()" type="text" name="curp" :value="$personal_data->curp"  autofocus autocomplete="curp" />
                         </div>
 
                         <div hidden>
                             <x-label for="user_id" value="{{ __('User') }}" />
-                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="$personal_data->user_id" required autofocus autocomplete="user_id" value="9999" />
+                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="$personal_data->user_id" required autofocus autocomplete="user_id" value="{{ Auth::user()->id }}" />
                         </div>
  
                         <div class="flex mt-4">
                             <x-button>
-                                {{ __('Save Employee') }}
+                                {{ __('Aceptar') }}
                             </x-button>
                         </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout><script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
+</x-app-layout>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/themes/airbnb.min.css">
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>

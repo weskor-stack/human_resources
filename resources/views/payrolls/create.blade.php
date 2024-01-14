@@ -20,19 +20,29 @@
                             <x-input id="key" class="block mt-1 w-full" type="text" name="key" :value="old('key')" required autofocus autocomplete="key" />
                         </div> <br>
 
+                        <div>
+                            <x-label for="key" value="{{ __('Tipo de nómina') }}" />
+                            <select name="type_payroll_id" id="type_payroll_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                @foreach($type_payrolls as $type_payroll)
+                                    <option value="{{$type_payroll->type_payroll_id}}">{{$type_payroll->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <br>
+
                         <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <x-label for="description" value="{{ __('Description') }}" />
-                            <textarea name="description" id="description" cols="30" rows="10" class="block mt-1 w-full"></textarea>
+                            <x-label for="description" value="{{ __('Descripción') }}" />
+                            <textarea name="description":value="old('description')" id="description" cols="30" rows="10" class="block mt-1 w-full"required></textarea>
                         </div>
 
                         <br>
 
                         <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <x-label for="position_id" value="{{ __('Data') }}" />
+                            <x-label for="position_id" value="{{ __('Fecha') }}" />
                             <table style="text-align:center" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <tr>
-                                    <td>{{ __('Income') }}</td>
-                                    <td>{{ __('Output') }}</td>
+                                    <td>{{ __('Entrada') }}</td>
+                                    <td>{{ __('Salida') }}</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -45,7 +55,7 @@
                                         <x-input id="start_date" name="start_date" x-data x-init="flatpickr($refs.input, {{ $options }} );" x-ref="input" type="text" data-input class='block mt-1 w-full pl-10 p-2.5'/>
                                     </td>
                                     <td>
-                                    @props(['options' => "{dateFormat:'Y-m-d', altFormat:'F j, Y', altInput:true, }"])
+                                        @props(['options' => "{dateFormat:'Y-m-d', altFormat:'F j, Y', altInput:true, }"])
                                         <div class="absolute inset-y-50 left-30 flex items-left pl-3.5 pointer-events-none">
                                             <svg class="w-4 h-12 text-gray-500 dark:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
@@ -60,25 +70,29 @@
                         <br>
 
                         <div>
-                            <x-label for="name" value="{{ __('Month') }}"/>
+                            <!-- <?php 
+                                $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                           ?> 
+                            <x-label for="name" value="{{ __('Mes') }}"/>
                             <select name="month_id" id="month_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="#" selected disabled>{{ __('Select month') }}</option>
+                                <option value="{{date('n')}}" selected>{{ $meses[date('n')-1] }}</option>
                                 @foreach ($months as $month)
                                     <option value="{{ $month->month_id }}">{{ $month->name }}</option>
                                 @endforeach
-                            </select>
+                            </select> -->
+                            <x-input id="month_id" class="block mt-1 w-full" type="hidden" name="month_id" :value="old('month_id')" required autofocus autocomplete="month_id" value="{{date('m')}}" />
                         </div>
 
                         <br>
 
                         <div hidden>
                             <x-label for="user_id" value="{{ __('User') }}" />
-                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="9999" />
+                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="{{ Auth::user()->id }}" />
                         </div>
  
                         <div class="flex mt-4">
                             <x-button>
-                                {{ __('Save') }}
+                                {{ __('Aceptar') }}
                             </x-button>
                         </div>
                 </div>

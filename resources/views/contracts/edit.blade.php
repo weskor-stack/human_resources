@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Edit Contract') }}
+            {{ __('Editar Contrato') }}
         </h2>
     </x-slot>
  
@@ -17,7 +17,7 @@
  
                         
                         <div>
-                            <x-label for="name" value="{{ __('Employee') }}" />
+                            <x-label for="name" value="{{ __('Empleado') }}" />
                             <select name="employee_id" id="employee_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="{{ $contract->employee_id }}" selected>{{ $employee_data[0]->name }} {{ $employee_data[0]->last_name1 }} {{ $employee_data[0]->last_name2 }}</option>
                                 @foreach ($employees as $employee)
@@ -29,9 +29,9 @@
                         <br>
 
                         <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <x-label for="name" value="{{ __('Position') }}" />
+                            <x-label for="name" value="{{ __('Puesto') }}" />
                             <div>
-                                <x-label for="name" value="{{ __('Secretary') }}" />
+                                <x-label for="name" value="{{ __('Secretaría') }}" />
                                 <select name="secretary" id="secretary" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="{{$secretary[0]->secretary_id}}" selected disabled>{{ $secretary[0]->name }}</option>
                                     @foreach ($secretaries as $secretary)
@@ -41,7 +41,7 @@
                                 <br>
                             </div>
                             <div id="sub_secretary">
-                                <x-label for="name" value="{{ __('Sub-Secretary') }}" />
+                                <x-label for="name" value="{{ __('Sub-Secretaría') }}" />
                                 <select name="undersecreatries" id="undersecreatries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="{{$undersecretary[0]->undersecretary_id}}-{{$undersecretary[0]->secretary_id}}-{{$undersecretary[0]->name}}" selected disabled>{{$undersecretary[0]->name}}</option>
                                 </select>
@@ -49,7 +49,7 @@
                             </div>
 
                             <div id="gestor">
-                                <x-label for="name" value="{{ __('Management') }}" />
+                                <x-label for="name" value="{{ __('Gestor') }}" />
                                 <select name="managements" id="managements" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="{{$management[0]->management_id}}-{{$management[0]->undersecretary_id}}-{{$management[0]->name}}" selected disabled>{{$management[0]->name}}</option>
                                 </select>
@@ -57,7 +57,7 @@
                             </div>
 
                             <div id="unidad">
-                                <x-label for="name" value="{{ __('Unit') }}" />
+                                <x-label for="name" value="{{ __('Unidad') }}" />
                                 <select name="units" id="units" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="{{$unit[0]->unit_id}}-{{$unit[0]->management_id}}-{{$unit[0]->name}}" selected disabled>{{$unit[0]->name}}</option>
                                 </select>
@@ -65,7 +65,7 @@
                             </div>
 
                             <div id="departamento">
-                                <x-label for="name" value="{{ __('Department') }}" />
+                                <x-label for="name" value="{{ __('Departamento') }}" />
                                 <select name="department_id" id="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="{{$department[0]->department_id}}-{{$department[0]->unit_id}}-{{$department[0]->name}}" selected >{{$department[0]->name}}</option>
                                 </select>
@@ -73,7 +73,7 @@
                             </div>
 
                             <div id="puesto" >
-                                <x-label for="position_id" value="{{ __('Position') }}" />
+                                <x-label for="position_id" value="{{ __('Puesto') }}" />
                                 <select name="position_id" id="position_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="{{ $position[0]->position_id }}-{{ $position[0]->department_id }}-{{ $position[0]->name }}">{{ $position[0]->name }}</option>
                                 </select>
@@ -83,7 +83,7 @@
                         <br>
 
                         <div>
-                            <x-label for="position_id" value="{{ __('Type contract') }}" />
+                            <x-label for="position_id" value="{{ __('Tipo de contrato') }}" />
                             <select name="type_contract_id" id="type_contract_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="{{$type_contract[0]->type_contract_id}}" selected>{{ $type_contract[0]->name }}</option>
                                 @foreach ($type_contracts as $type)
@@ -97,8 +97,8 @@
                             <x-label for="position_id" value="{{ __('Data') }}" />
                             <table style="text-align:center" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <tr>
-                                    <td>{{ __('Income') }}</td>
-                                    <td>{{ __('Output') }}</td>
+                                    <td>{{ __('Entrada') }}</td>
+                                    <td>{{ __('Salida') }}</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -126,14 +126,15 @@
 
                         <div>
                             <x-label for="name" value="{{ __('Checador') }}" />
-                            <input checked id="check_attendance" name="check_attendance" type="checkbox" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input checked id="check_attendance" name="check_attendance" type="checkbox" value="{{$contract->check_attendance}}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input checked id="check_attendance2" name="check_attendance2" type="hidden" value="2" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <br>
                         </div>
 
                         <br>
 
                         <div>
-                            <x-label for="name" value="{{ __('Status') }}"/>
+                            <x-label for="name" value="{{ __('Estado') }}"/>
                             <select name="status_contract_id" id="status_contract_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="{{ $status_contracts[0]->status_contract_id }}" selected>{{ $status_contracts[0]->name }}</option>
                                 @foreach ($status as $status)
@@ -145,12 +146,12 @@
 
                         <div hidden>
                             <x-label for="user_id" value="{{ __('User') }}" />
-                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="9999" />
+                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="{{ Auth::user()->id }}" />
                         </div>
  
                         <div class="flex mt-4">
                             <x-button>
-                                {{ __('Save Contract') }}
+                                {{ __('Aceptar') }}
                             </x-button>
                         </div>
                 </div>
@@ -174,6 +175,24 @@
         department = department.split('-');
         position = position.split('-');
         
+        checkBox = document.getElementById('check_attendance');
+        if(checkBox.value == 2){
+            document.getElementById("check_attendance").checked = false;
+        }else{
+            document.getElementById("check_attendance").checked = true;
+        }
+
+        $('#check_attendance').change(function() {
+            if(checkBox.checked) {
+                //alert("Check");
+                document.getElementById('check_attendance').value="1";
+            }else{
+                // alert("No Check");
+                document.getElementById('check_attendance').value="2"
+                document.getElementById('check_attendance2').disabled = true;
+                // alert(document.getElementById('check_attendance2').value);
+            }
+        });
         // alert(position[1]);
         // $('#undersecreatries').html('');
         $.ajax({
@@ -250,7 +269,7 @@
                 url: "{{ route('getUndersecretary') }}?secretary_id="+countryId,
                 type: 'get',
                 success: function (res) {
-                    $('#undersecreatries').html("<option value='0' selected disabled>{{ __('Select Sub secretary')}}</option>");
+                    $('#undersecreatries').html("<option value='0' selected disabled>{{ __('Seleccionar sub-secretaría')}}</option>");
                     $.each(res, function (key, value) {
                         $('#undersecreatries').append('<option value="' + value
                             .undersecretary_id + '">' + value.name  +'</option>');
@@ -271,7 +290,7 @@
                 url: "{{ route('getManagements') }}?undersecretary_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#managements').html("<option value='0' selected disabled>{{ __('Select Management')}}</option>");
+                $('#managements').html("<option value='0' selected disabled>{{ __('Seleccionar Gestor')}}</option>");
                 $.each(res, function (key, value) {
                     $('#managements').append('<option value="' + value
                         .management_id + '">' + value.name +'</option>');
@@ -292,7 +311,7 @@
                 url: "{{ route('getUnits') }}?management_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#units').html("<option value='0' selected disabled>{{ __('Select Unit')}}</option>");
+                $('#units').html("<option value='0' selected disabled>{{ __('Seleccionar unidad')}}</option>");
                 $.each(res, function (key, value) {
                     $('#units').append('<option value="' + value
                         .unit_id + '">' + value.name +'</option>');
@@ -311,7 +330,7 @@
                 url: "{{ route('getDepartments') }}?unit_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#department_id').html("<option value='0' selected disabled>{{ __('Select Department')}}</option>");
+                $('#department_id').html("<option value='0' selected disabled>{{ __('Select Departamento')}}</option>");
                 $.each(res, function (key, value) {
                     $('#department_id').append('<option value="' + value
                         .department_id + '">' + value.name +'</option>');
@@ -330,7 +349,7 @@
                 url: "{{ route('getPositions') }}?department_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#position_id').html("<option value='0' selected disabled>{{ __('Select Position')}}</option>");
+                $('#position_id').html("<option value='0' selected disabled>{{ __('Seleccionar puesto')}}</option>");
                 $.each(res, function (key, value) {
                     $('#position_id').append('<option value="' + value
                         .position_id + '">' + value.name +'</option>');

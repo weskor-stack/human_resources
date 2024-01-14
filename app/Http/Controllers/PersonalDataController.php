@@ -27,7 +27,7 @@ class PersonalDataController extends Controller
     public function create()
     {
         //
-        $employees = Employee::all();//pluck('employee_id','name');
+        $employees = Employee::where('status_employee_id','=','1')->select('employee_id','name','last_name1','last_name2')->whereNotIn('employee_id', Personal_data::select('employee_id')->where('status_employee_id', '=', 1))->get();
         return view('personal_datas.create', compact('employees'));
     }
 

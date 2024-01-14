@@ -27,7 +27,6 @@ class UpdatePayrollRequest extends FormRequest
             'description' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'month_id' => 'required',
         ];
     }
 }

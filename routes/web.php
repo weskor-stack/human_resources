@@ -38,6 +38,8 @@ Route::middleware([
     Route::resource('payroll_deductions', \App\Http\Controllers\PayrollDeductionController::class);
     Route::resource('payroll_perceptions', \App\Http\Controllers\PayrollPerceptionController::class);
 
+    Route::resource('income_taxes', \App\Http\Controllers\IncomeTaxController::class);
+
 /////////////////////////////////////////////////////////// Dropdown ///////////////////////////////////////////////////////////////////////
     Route::get('dropdown', [\App\Http\Controllers\DropdownController::class, 'view']);
     Route::get('get-unders', [\App\Http\Controllers\DropdownController::class, 'getUndersecretary'])->name('getUndersecretary');
@@ -50,6 +52,20 @@ Route::middleware([
     Route::get('get-locations', [\App\Http\Controllers\DropdownController::class, 'getLocation'])->name('getLocation');
     Route::get('get-contracts', [\App\Http\Controllers\DropdownController::class, 'getContracts'])->name('getContracts');
     Route::get('get-typecontracts', [\App\Http\Controllers\DropdownController::class, 'getTypeContracts'])->name('getTypeContracts');
+
+    Route::get('get-payrolls', [\App\Http\Controllers\DropdownController::class, 'getPayrolls'])->name('getPayrolls');
+    Route::get('get-payrollslocation', [\App\Http\Controllers\DropdownController::class, 'getLocationpayrolls'])->name('getLocationpayrolls');
+    Route::get('get-payrollsdeduction', [\App\Http\Controllers\DropdownController::class, 'getDeductions'])->name('getDeductions');
+    Route::get('get-payrollsdeductions', [\App\Http\Controllers\DropdownController::class, 'getPayrollDeductions'])->name('getPayrollDeductions');
+    Route::get('get-perceptions', [\App\Http\Controllers\DropdownController::class, 'getPerceptions'])->name('getPerceptions');
+    Route::get('get-deductions', [\App\Http\Controllers\DropdownController::class, 'getDeductions_payroll'])->name('getDeductions_payroll');
+
+    Route::get('get-salaries', [\App\Http\Controllers\DropdownController::class, 'getSalaries'])->name('getSalaries');
+    Route::get('get-taxes', [\App\Http\Controllers\DropdownController::class, 'getTaxes'])->name('getTaxes');
+    Route::get('get-taxes2', [\App\Http\Controllers\DropdownController::class, 'getTaxes2'])->name('getTaxes2');
+    Route::get('get-deductionemployees', [\App\Http\Controllers\DropdownController::class, 'getDeductions_employee'])->name('getDeductions_employee');
+    Route::get('get-perceptionemployees', [\App\Http\Controllers\DropdownController::class, 'getPerception_employee'])->name('getPerception_employee');
+    
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////// Limpiar cache ///////////////////////////////////////////////////////////////////////

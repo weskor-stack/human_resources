@@ -7,8 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="shortcut icon" type="image/png" href="http://localhost/human_resources/public/img/escudo.png">
-        <link rel="shortcut icon" href="http://localhost/human_resources/public/img/escudo.png">
+        <link rel="shortcut icon" type="image/png" href="{{ url('/img/escudo.png') }}">
+        <link rel="shortcut icon" href="{{ url('/img/escudo.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -26,12 +26,12 @@
         
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100" style="background-image: url('http://localhost/human_resources/public/img/fondo.png')">
+        <div class="min-h-screen bg-gray-100" style="background-image: {{ url('http://localhost/human_resources/public/img/fondo.png') }}">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white shadow" style="background-image: url('http://localhost/human_resources/public/img/encabezado.png')">
+                <header class="bg-white shadow" style="background-image: url('http://localhost/human_resources/public/img/encabezado.PNG')">
                     <div class="max-w-7xl mx-auto py-7 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -50,9 +50,27 @@
         </div>
         </div> 
     </body>
-    <footer style="background-image: url('http://localhost/human_resources/public/img/pie.png')">
+    <footer style="background-image: url('http://localhost/human_resources/public/img/pie.PNG')">
         <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
-         
+            <table style="text-align:left;">
+                <thead>
+                    <th width="10%"></th>
+                    <th colspan="2"><font color="#FFFFFF">Centro Administrativo del Poder Ejecutivo y Judicial "General Porfirio Díaz, Soldado de la Patria"</font></th>
+                    <th width="30%"></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td width="10%"></td>
+                        <td colspan="2"><strong><font color="#FFFFFF">Edificio "D" Saúl Martínez Avenida Gerardo Pandal Graff #1</font></strong></td>
+                        <td width="30%"></td>
+                    </tr>
+                    <tr>
+                        <td width="10%"></td>
+                        <td colspan="2"><strong><font color="#FFFFFF">Reyes Mantecón, San Bartolo Coyotepec, Oaxaca. C.P. 71257</font></strong></td>
+                        <td width="30%"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </footer>
 </html>

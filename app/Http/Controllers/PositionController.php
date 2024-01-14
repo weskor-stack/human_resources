@@ -59,9 +59,18 @@ class PositionController extends Controller
         //
          //$request->validate(Employee::$request);
         //$datosEmpleado = $request->all();
-        $positions = $request->except('_token','secretary','undersecreatries','managements','units','state','municipality');
+        $name = $request['name'];
+        $nombre = '';
+        $explode_name = explode(' ',$name);
+        foreach($explode_name as $x){
+            $nombre .=  $x[0];
+        }
+        $key = $nombre;
+        $request['key'] = $key;
         
-        // return response()->json($positions);
+        $positions = $request->except('_token','secretary','undersecreatries','managements','units','state','municipality');
+
+        // return response()->json($nombre);
 
         Position::insert($positions);
  
@@ -113,7 +122,17 @@ class PositionController extends Controller
     public function update(UpdatePositionRequest $request, Position $position)
     {
         //
-        $positions = $request->except('_token','_method','undersecreatries','managements','municipality');
+
+        $name = $request['name'];
+        $nombre = '';
+        $explode_name = explode(' ',$name);
+        foreach($explode_name as $x){
+            $nombre .=  $x[0];
+        }
+        $key = $nombre;
+        $request['key'] = $key;
+        
+        $positions = $request->except('_token','_method','undersecreatries','managements','municipality','units');
 
         // return response()->json($positions);
 

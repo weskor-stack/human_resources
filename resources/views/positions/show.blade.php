@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Show Position') }}
+            {{ __('Puesto') }}
         </h2>
     </x-slot>
  
@@ -12,12 +12,12 @@
                     <x-validation-errors class="mb-4" />
  
                     <div>
-                        <strong>{{ __('Name') }}:</strong>
+                        <strong>{{ __('Nombre') }}:</strong>
                         {{$position->name}}
                     </div>
 
                     <div>
-                        <strong>{{ __('Department') }}:</strong>
+                        <strong>{{ __('Departamento') }}:</strong>
                             @foreach ($departments as $department)
                                 @if($department->department_id == $position->department_id)
                                     {{ $department->name }}
@@ -26,7 +26,7 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Status') }}:</strong>
+                        <strong>{{ __('Estado') }}:</strong>
                         @foreach ($statuses as $status)
                             @if($status->status_id == $position->status_id)
                                 {{ $status->name }}
@@ -35,7 +35,7 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Location') }}:</strong>
+                        <strong>{{ __('Localidad') }}:</strong>
                         @foreach ($locations as $location)
                             @if($location->location_id == $position->location_id)
                                 {{ $location->name }}
@@ -44,7 +44,7 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Address') }}:</strong>
+                        <strong>{{ __('Dirección') }}:</strong>
                         {{$position->address}}
                     </div>
                 </div>

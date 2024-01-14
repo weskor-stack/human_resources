@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Add New Status') }}
+            {{ __('Agregar Status') }}
         </h2>
     </x-slot>
  
@@ -15,7 +15,7 @@
                         @csrf
  
                         <div>
-                            <x-label for="name" value="{{ __('Status name') }}" />
+                            <x-label for="name" value="{{ __('Nombre') }}" />
                             <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
                         </div>
 
@@ -26,7 +26,7 @@
  
                         <div class="flex mt-4">
                             <x-button>
-                                {{ __('Save Status') }}
+                                {{ __('Aceptar') }}
                             </x-button>
                         </div>
                 </div>

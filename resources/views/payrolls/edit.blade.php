@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Edit Contract') }}
+            Editar nómina
         </h2>
     </x-slot>
  
@@ -24,17 +24,31 @@
                         <br>
 
                         <div>
-                            <x-label for="description" value="{{ __('Description') }}" />
+                            <x-label for="key" value="{{ __('Tipo de nómina') }}" />
+                            <select name="type_payroll_id" id="type_payroll_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                @foreach($type_payrolls as $type_payroll)
+                                    @if($type_payroll->type_payroll_id == $typePayroll[0]->type_payroll_id)
+                                        <option selected value="{{$type_payroll->type_payroll_id}}">{{$type_payroll->name}}</option>
+                                    @else
+                                        <option value="{{$type_payroll->type_payroll_id}}">{{$type_payroll->name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <br>
+
+                        <div>
+                            <x-label for="description" value="{{ __('Descripción') }}" />
                             <textarea name="description" id="description" cols="30" rows="5" class="block mt-1 w-full">{{ $payroll->description }}</textarea>
                         </div>
                         <br>
 
                         <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <x-label for="position_id" value="{{ __('Data') }}" />
+                            <x-label for="position_id" value="{{ __('Fecha') }}" />
                             <table style="text-align:center" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <tr>
-                                    <td>{{ __('Income') }}</td>
-                                    <td>{{ __('Output') }}</td>
+                                    <td>{{ __('Entrada') }}</td>
+                                    <td>{{ __('Salida') }}</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -61,8 +75,8 @@
                         <br>
 
 
-                        <div>
-                            <x-label for="name" value="{{ __('Month') }}"/>
+                        <div hidden>
+                            <x-label for="name" value="{{ __('Mes') }}"/>
                             <select name="month_id" id="month_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="{{ $month[0]->month_id }}" selected>{{ $month[0]->name }}</option>
                                 @foreach ($months as $month)
@@ -74,12 +88,12 @@
 
                         <div hidden>
                             <x-label for="user_id" value="{{ __('User') }}" />
-                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="9999" />
+                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="{{ Auth::user()->id }}" />
                         </div>
  
                         <div class="flex mt-4">
                             <x-button>
-                                {{ __('Save') }}
+                                {{ __('Aceptar') }}
                             </x-button>
                         </div>
                 </div>

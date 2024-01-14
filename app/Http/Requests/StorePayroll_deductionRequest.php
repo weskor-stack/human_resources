@@ -24,9 +24,9 @@ class StorePayroll_deductionRequest extends FormRequest
         return [
             //
             'employee_id' => 'required',
-            'deduction_id' => 'required',
+            // 'deduction_id' => 'required',
             'payroll_id' => 'required',
-            'sum' => 'required',
+            // 'sum' => 'required',
         ];
     }
 }

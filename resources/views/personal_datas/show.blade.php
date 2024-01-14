@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Show Employee') }}
+            {{ __('Datos') }}
         </h2>
     </x-slot>
  
@@ -12,7 +12,7 @@
                     <x-validation-errors class="mb-4" />
  
                     <div>
-                        <strong>{{ __('Employee') }}:</strong>
+                        <strong>{{ __('Empleado') }}:</strong>
                         @foreach ($employees as $employee)
                             @if($employee->employee_id == $personal_data->employee_id)
                                 <x-label value="{{ $employee->name }} {{ $employee->last_name1 }} {{ $employee->last_name2 }}" />
@@ -21,7 +21,7 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Date birth') }}:</strong>
+                        <strong>{{ __('Fecha de nacimiento') }}:</strong>
                         <x-label value="{{ $personal_data->date_birth }}" />
                     </div>
 

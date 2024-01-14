@@ -23,12 +23,9 @@ class UpdateEmployeeRequest extends FormRequest
     {
         return [
             //
-            'key' => 'required',
             'name' => 'required',
             'last_name1' => 'required',
             'last_name2' => 'required',
-            'observation' => 'required',
-            'status_id' => 'required',
         ];
     }
 }

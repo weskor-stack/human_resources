@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Add New Position') }}
+            {{ __('Puesto') }}
         </h2>
     </x-slot>
  
@@ -15,18 +15,18 @@
                         @csrf
  
                         <div>
-                            <x-label for="name" value="{{ __('Name') }}" />
+                            <x-label for="name" value="{{ __('Nombre') }}" />
                             <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
                             <br>
                         </div>
 
                         <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <x-label for="name" value="{{ __('Department') }}" />
+                            <x-label for="name" value="{{ __('Departamento') }}" />
                             <br>
                             <div id="secretary_1">
-                                <x-label for="name" value="{{ __('Secretary') }}" />
+                                <x-label for="name" value="{{ __('Secretaría') }}" />
                                 <select name="secretary" id="secretary" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="#" selected disabled>Choose a secretary</option>
+                                    <option value="#" selected disabled>Seleccionar secretaría</option>
                                     @foreach ($secretaries as $secretary)
                                         <option value="{{$secretary->secretary_id}}">{{ $secretary->name }}</option>
                                     @endforeach
@@ -35,25 +35,25 @@
                             </div>
 
                             <div id="sub_secretary" hidden>
-                                <x-label for="name" value="{{ __('Sub-Secretary') }}" />
+                                <x-label for="name" value="{{ __('Sub-Secretaría') }}" />
                                 <select name="undersecreatries" id="undersecreatries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
                                 <br>
                             </div>
 
                             <div id="gestor" hidden>
-                                <x-label for="name" value="{{ __('Management') }}" />
+                                <x-label for="name" value="{{ __('Gestor') }}" />
                                 <select name="managements" id="managements" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
                                 <br>
                             </div>
 
                             <div id="unidad" hidden>
-                                <x-label for="name" value="{{ __('Unit') }}" />
+                                <x-label for="name" value="{{ __('Unidad') }}" />
                                 <select name="units" id="units" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
                                 <br>
                             </div>
 
                             <div id="departamento" hidden>
-                                <x-label for="name" value="{{ __('Department') }}" />
+                                <x-label for="name" value="{{ __('Departamento') }}" />
                                 <select name="department_id" id="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
                                 <br>
                             </div>
@@ -61,10 +61,10 @@
                         </div>
 
                         <div>
-                            <x-label for="status_id" value="{{ __('Status') }}" />
+                            <x-label for="status_id" value="{{ __('Estado') }}" />
                             <!-- x-input id="status_id" class="block mt-1 w-full" type="text" name="status_id" :value="old('status_id')" required autofocus autocomplete="status_id" / -->
                             <select id="status_id" name="status_id" :value="old('status_id')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected disabled>Choose a status</option>
+                                <option selected disabled>Seleccionar status</option>
                                 @foreach ($statuses as $status)
                                     <option value="{{$status->status_id}}">{{$status->name}}</option>
                                 @endforeach
@@ -73,12 +73,12 @@
                         </div>
 
                         <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <x-label for="location_id" value="{{ __('Location') }}" />
+                            <x-label for="location_id" value="{{ __('Ubicación') }}" />
                             <br>
                             <div id="estados">
-                                <x-label for="location_id" value="{{ __('State') }}" />
+                                <x-label for="location_id" value="{{ __('Estados') }}" />
                                 <select name="state" id="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                                    <option selected disabled>Choose a state</option>
+                                    <option selected disabled>Seleccionar estado</option>
                                     @foreach ($federal_entity as $states)
                                         <option value="{{$states->federal_entity_id}}">{{$states->name}}</option>
                                     @endforeach
@@ -87,13 +87,13 @@
                             </div>
                             
                             <div id="municipios" hidden>
-                                <x-label for="location_id" value="{{ __('Municipality') }}" />
+                                <x-label for="location_id" value="{{ __('Municipio') }}" />
                                 <select name="municipality" id="municipality" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
                                 <br>
                             </div>
 
                             <div id="localidades" hidden>
-                                <x-label for="location_id" value="{{ __('Location') }}" />
+                                <x-label for="location_id" value="{{ __('Localidad') }}" />
                                 <select name="location_id" id="location_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
                             </div>
                             <!-- x-input id="status_id" class="block mt-1 w-full" type="text" name="status_id" :value="old('status_id')" required autofocus autocomplete="status_id" / -->
@@ -107,18 +107,18 @@
                         </div>
 
                         <div>
-                            <x-label for="address" value="{{ __('Address') }}" />
+                            <x-label for="address" value="{{ __('Dirección') }}" />
                             <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus autocomplete="address" />
                         </div>
 
                         <div hidden>
                             <x-label for="user_id" value="{{ __('User') }}" />
-                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="9999" />
+                            <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="{{ Auth::user()->id }}" />
                         </div>
  
                         <div class="flex mt-4">
                             <x-button>
-                                {{ __('Save Position') }}
+                                {{ __('Aceptar') }}
                             </x-button>
                         </div>
                 </div>
@@ -140,7 +140,7 @@
                 url: "{{ route('getUndersecretary') }}?secretary_id="+countryId,
                 type: 'get',
                 success: function (res) {
-                    $('#undersecreatries').html("<option value='0' disabled>{{ __('Select Sub secretary')}}</option>");
+                    $('#undersecreatries').html("<option value='0' disabled>{{ __('Seleccionar Sub-secretaría')}}</option>");
                     $.each(res, function (key, value) {
                         $('#undersecreatries').append('<option value="' + value
                             .undersecretary_id + '">' + value.name  +'</option>');
@@ -158,7 +158,7 @@
                 url: "{{ route('getManagements') }}?undersecretary_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#managements').html("<option value='0' selected disabled>{{ __('Select Management')}}</option>");
+                $('#managements').html("<option value='0' selected disabled>{{ __('Seleccionar Gestor')}}</option>");
                 $.each(res, function (key, value) {
                     $('#managements').append('<option value="' + value
                         .management_id + '">' + value.name +'</option>');
@@ -175,7 +175,7 @@
                 url: "{{ route('getUnits') }}?management_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#units').html("<option value='0' selected disabled>{{ __('Select Unit')}}</option>");
+                $('#units').html("<option value='0' selected disabled>{{ __('Seleccionar Unidad')}}</option>");
                 $.each(res, function (key, value) {
                     $('#units').append('<option value="' + value
                         .unit_id + '">' + value.name +'</option>');
@@ -192,7 +192,7 @@
                 url: "{{ route('getDepartments') }}?unit_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#department_id').html("<option value='0' selected disabled>{{ __('Select Department')}}</option>");
+                $('#department_id').html("<option value='0' selected disabled>{{ __('Seleccionar Departamento')}}</option>");
                 $.each(res, function (key, value) {
                     $('#department_id').append('<option value="' + value
                         .department_id + '">' + value.name +'</option>');
@@ -209,7 +209,7 @@
                 url: "{{ route('getMunicipality') }}?federal_entity_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#municipality').html("<option value='0' selected disabled>{{ __('Select Municipality')}}</option>");
+                $('#municipality').html("<option value='0' selected disabled>{{ __('Select Municipio')}}</option>");
                 $.each(res, function (key, value) {
                     $('#municipality').append('<option value="' + value
                         .municipality_id + '">' + value.name +'</option>');
@@ -231,7 +231,7 @@
                 url: "{{ route('getLocation') }}?municipality_id="+contactId,
                 type: 'get',
                 success: function (res) {
-                $('#location_id').html("<option value='0' selected disabled>{{ __('Select Location')}}</option>");
+                $('#location_id').html("<option value='0' selected disabled>{{ __('Seleccionar Localidad')}}</option>");
                 $.each(res, function (key, value) {
                     $('#location_id').append('<option value="' + value
                         .location_id + '">' + value.name +'</option>');

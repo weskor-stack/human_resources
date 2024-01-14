@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Payroll;
 use App\Models\Month;
+use App\Models\TypePayroll;
 use App\Http\Requests\StorePayrollRequest;
 use App\Http\Requests\UpdatePayrollRequest;
+
+use DB;
+use Resources;
 
 class PayrollController extends Controller
 {
@@ -27,7 +31,8 @@ class PayrollController extends Controller
         //
         $payrolls = Payroll::all();
         $months = Month::all();
-        return view('payrolls.create', compact('payrolls','months'));
+        $type_payrolls = TypePayroll::all();
+        return view('payrolls.create', compact('payrolls','months','type_payrolls'));
     }
 
     /**
@@ -37,8 +42,12 @@ class PayrollController extends Controller
     {
         //
         $payrolls = $request->except('_token');
-        Pay_roll::insert($payrolls);
+        Payroll::insert($payrolls);
         // return response()->json($payrolls);
+        $payroll = Payroll::latest('payroll_id')->first();
+        // $store_procedure = DB::select('call create_payroll(?)', [$payroll->payroll_id]);
+        $store_procedure = DB::select('call oaxaca.create_payroll('.$payroll->payroll_id.',"'.$payroll->description.'",'.$payroll->user_id.')');
+        // return response()->json($payroll->payroll_id);
         return redirect()->route('payrolls.index');
     }
 
@@ -60,8 +69,10 @@ class PayrollController extends Controller
         //
         $months = Month::all();
         $month = Month::select('month_id','name')->where('month_id','=',$payroll->month_id)->get();
-        // return response()->json($month);
-        return view('payrolls.edit', compact('payroll', 'months','month'));
+        $type_payrolls = TypePayroll::all();
+        $typePayroll = TypePayroll::select('type_payroll_id','key','name')->where('type_payroll_id','=',$payroll->type_payroll_id)->get();
+        // return response()->json($type_payroll);
+        return view('payrolls.edit', compact('payroll', 'months','month','type_payrolls','typePayroll'));
     }
 
     /**

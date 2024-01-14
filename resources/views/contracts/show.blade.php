@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Show Employee') }}
+            {{ __('Contrato') }}
         </h2>
     </x-slot>
  
@@ -12,7 +12,7 @@
                     <x-validation-errors class="mb-4" />
  
                     <div>
-                        <strong>{{ __('Employee') }}:</strong>
+                        <strong>{{ __('Empleado') }}:</strong>
                         @foreach ($employees as $employee)
                             @if($employee->employee_id == $contract->employee_id)
                                 <x-label value="{{ $employee->name }} {{ $employee->last_name1 }} {{ $employee->last_name2 }}" />
@@ -21,7 +21,7 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Position') }}:</strong>
+                        <strong>{{ __('Puesto') }}:</strong>
                         @foreach ($positions as $position)
                             @if($position->position_id == $contract->position_id)
                                 <x-label value="{{ $position->name }}" />
@@ -30,7 +30,7 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Type contract') }}:</strong>
+                        <strong>{{ __('Tipo de contrato') }}:</strong>
                         @foreach ($type_contracts as $contrato)
                             @if($contrato->type_contract_id == $contract->type_contract_id)
                                 <x-label value="{{ $contrato->name }}" />
@@ -39,17 +39,17 @@
                     </div>
 
                     <div>
-                        <strong>{{ __('Start date') }}:</strong>
+                        <strong>{{ __('Fecha de inicio') }}:</strong>
                         <x-label value="{{ $contract->start_date }}" />
                     </div>
 
                     <div>
-                        <strong>{{ __('End date') }}:</strong>
+                        <strong>{{ __('Fecha final') }}:</strong>
                         <x-label value="{{ $contract->end_date }}" />
                     </div>
 
                     <div>
-                        <strong>{{ __('Status contract') }}:</strong>
+                        <strong>{{ __('Estado del contrato') }}:</strong>
                         @foreach ($status as $status)
                             @if($status->status_contract_id == $contract->status_contract_id)
                                 <x-label value="{{ $status->name }}" />

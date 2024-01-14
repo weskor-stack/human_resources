@@ -24,10 +24,10 @@ class UpdatePersonal_dataRequest extends FormRequest
         return [
             //
             'employee_id' => 'required',
-            'date_birth' => 'required',
-            'nss' => 'required',
+            // 'date_birth' => 'required',
+            // 'nss' => 'required',
             'rfc' => 'required',
-            'curp' => 'required',
+            // 'curp' => 'required',
         ];
     }
 }

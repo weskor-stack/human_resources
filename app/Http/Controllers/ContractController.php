@@ -36,7 +36,8 @@ class ContractController extends Controller
     public function create()
     {
         //
-        $employees = Employee::select('employee_id','name','last_name1','last_name2')->where('status_id','=','1')->get();
+        // $employees = Employee::select('employee_id','name','last_name1','last_name2')->where('status_id','=','1')->get();
+        $employees = Employee::where('status_employee_id','=','1')->select('employee_id','name','last_name1','last_name2')->whereNotIn('employee_id', Contract::select('employee_id')->where('status_employee_id', '=', 1))->get();
         $secretaries = Secretary::select('secretary_id','name','status_id')->where('status_id','=','1')->get();
         $type_contracts = TypeContract::select('type_contract_id','key','name','status_id')->where('status_id','=','1')->get();
         $status_contracts = StatusContract::all();
@@ -53,8 +54,20 @@ class ContractController extends Controller
         $employees = Employee::all();
         $positions = Position::all();
         $contract = $request->except('_token','secretary','undersecreatries','managements','units','department_id');
-        // return response()->json($contract);
-        Contract::insert($contract);
+        if ($request['check_attendance'] == null) {
+            # code...
+            $request['check_attendance'] = $request['check_attendance2'];
+            $contract = $request->except('_token','secretary','undersecreatries','managements','units','department_id','check_attendance2');
+            // $request['check_attendance'] = $request['check_attendance2'];
+            // return response()->json($contract);
+            Contract::insert($contract);
+        }else{
+            $contract = $request->except('_token','secretary','undersecreatries','managements','units','department_id','check_attendance2');
+            // return response()->json($contract);
+            Contract::insert($contract);
+        }
+        //return response()->json($request);
+        // Contract::insert($contract);
         // return view('contracts.index', compact('contracts','employees','positions'));
         return redirect()->route('contracts.index');
     }
@@ -85,10 +98,10 @@ class ContractController extends Controller
         $undersecretary = Undersecretary::select('undersecretary_id','name','secretary_id')->where('undersecretary_id','=',$management[0]->undersecretary_id)->get();
         $secretary = Secretary::select('secretary_id','name','status_id')->where('secretary_id','=',$undersecretary[0]->secretary_id)->get();
 
-        $employees = Employee::select('employee_id','name','last_name1','last_name2')->where('status_id','=','1')->get();
+        $employees = Employee::select('employee_id','name','last_name1','last_name2')->where('status_employee_id','=','1')->get();
         $employee_data = Employee::select('employee_id','name','last_name1','last_name2')->where('employee_id','=',$contract->employee_id)->get();
         $secretaries = Secretary::select('secretary_id','name','status_id')->where('status_id','=','1')->get();
-        $type_contracts = TypeContract::all();
+        $type_contracts = TypeContract::select('type_contract_id','key','name','status_id')->where('status_id','=','1')->get();
         $type_contract = TypeContract::select('type_contract_id','name')->where('type_contract_id','=',$contract->type_contract_id)->get();
 
         $status_contracts = StatusContract::select('status_contract_id','name')->where('status_contract_id','=',$contract->status_contract_id)->get();
@@ -106,9 +119,20 @@ class ContractController extends Controller
         //
         $contracts = $request->except('_token','_method','undersecreatries','managements','municipality','department_id');
 
-        // return response()->json($contracts);
+        if ($request['check_attendance'] == null) {
+            # code...
+            $request['check_attendance'] = 2;
+            $contracts = $request->except('_token','_method','secretary','undersecreatries','managements','units','department_id','check_attendance2');
+            // $request['check_attendance'] = $request['check_attendance2'];
+            // return response()->json($request);
+            Contract::where('contract_id','=',$contract->contract_id) -> update($contracts);
+        }else{
+            $contracts = $request->except('_token','_method','secretary','undersecreatries','managements','units','department_id','check_attendance2');
+            // return response()->json($contract);
+            Contract::where('contract_id','=',$contract->contract_id) -> update($contracts);
+        }
 
-        Contract::where('contract_id','=',$contract->contract_id) -> update($contracts);
+        // Contract::where('contract_id','=',$contract->contract_id) -> update($contracts);
         //return response()->json($employee->employee_id);
  
         return redirect()->route('contracts.index');

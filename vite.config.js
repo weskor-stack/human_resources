@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                //'resources/js/payroll/js_payroll_deductions.js',
             ],
             refresh: [
                 ...refreshPaths,
