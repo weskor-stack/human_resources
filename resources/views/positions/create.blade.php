@@ -107,6 +107,16 @@
                         </div>
 
                         <div>
+                            <x-label for="address" value="{{ __('Tipo de puesto') }}" />
+                            <select name="type_position_id" id="type_position_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option selected disabled>Seleccionar tipo de puesto</option>
+                                    @foreach ($type_positions as $position)
+                                        <option value="{{$position->type_position_id}}">{{$position->name}}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div>
                             <x-label for="address" value="{{ __('Dirección') }}" />
                             <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus autocomplete="address" />
                         </div>

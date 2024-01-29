@@ -7,6 +7,7 @@ use App\Models\Undersecretary;
 use App\Models\Management;
 use App\Models\Unit;
 use App\Models\Position;
+use App\Models\TypePosition;
 use App\Models\Department;
 use App\Models\Status;
 use App\Models\FederalEntity;
@@ -47,8 +48,9 @@ class PositionController extends Controller
 
         $federal_entity = FederalEntity::select('federal_entity_id','name')->where('status_id','=','1')->get();
         $locations = Location::all();
+        $type_positions = TypePosition::select('key','name','status_id')->where('status_id','=','1')->get();
         return view('positions.create', compact('departments','statuses','locations','secretaries','undersecreatries','managements',
-    'units','federal_entity'));
+    'units','federal_entity','type_positions'));
     }
 
     /**
@@ -110,10 +112,14 @@ class PositionController extends Controller
         $secretaries = Secretary::select('secretary_id','name','status_id')->where('secretary_id','=',$undersecreatries[0]->secretary_id)->get();
 
         $secretary = Secretary::select('secretary_id','name')->where('status_id','=','1')->get();
-        // return response()->json($secretaries);
         
+        $type_positions = TypePosition::select('key','name','status_id')->where('status_id','=','1')->get();
+
+        $type_position = TypePosition::select('key','name','status_id')->where('status_id','=','1')->where('type_position_id','=',$position->type_position_id)->get();
+
+        // return response()->json($position);
         return view('positions.edit', compact('position','departments','statuses','statuses_2','locations','secretary','secretaries','undersecreatries','managements','units','federal_entity','federal_entity2',
-        'municipalities'));
+        'municipalities','type_positions','type_position'));
     }
 
     /**

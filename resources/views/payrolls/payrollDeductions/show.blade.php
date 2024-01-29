@@ -30,13 +30,13 @@
                                         <input type="text" name="honorarios" id="honorarios" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <!-- <select name="modalidad" id="modalidad" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"></select> -->
                                     </td>
-                                    <!-- <td style="text-align: center;">
+                                    <td style="text-align: center;">
                                         <div class="btn-group-toggle" data-toggle="buttons">
                                             <label class="btn btn-primary">
                                                 <input type="checkbox" id="mes"> Mensual
                                             </label>
                                         </div>
-                                    </td> -->
+                                    </td> 
                                 </tr>
                             </table>
                         </div> <br>
@@ -110,6 +110,7 @@
 </x-app-layout>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         checkBox = document.getElementById('mes');
@@ -176,11 +177,10 @@
             url: "{{ route('getPayrolls') }}?employee_id="+countryId,
             type: 'get',
             success: function (res) {
-                // $('#contrato').html("<option value='0' disabled>{{ __('Select Sub secretary')}}</option>");
+                $('#contrato').html("<option value='0' disabled>{{ __('Seleccionar nómina')}}</option>");
                 $.each(res, function (key, value) {
-                    // $('#contrato').append('<option value="' + value
-                    //     .position_id + '">' + value.name  +'</option>');
-                    $('#contrato').val(value.name);
+                    $('#contrato').append('<option value="' + value
+                        .position_id + '">' + value.name  +'</option>');
                 });
             }
         });
@@ -188,11 +188,10 @@
             url: "{{ route('getTypeContracts') }}?employee_id="+countryId,
             type: 'get',
             success: function (res) {
-                $('#modalidad').html("<option value='0' disabled>{{ __('Select Sub secretary')}}</option>");
+                $('#modalidad').html("<option value='0' disabled>{{ __('Seleccionar tipo de contrato')}}</option>");
                 $.each(res, function (key, value) {
-                    // $('#modalidad').append('<option value="' + value
-                    //     .type_contract_id + '">' + value.name  +'</option>');
-                    $('#honorarios').val(value.name);
+                    $('#modalidad').append('<option value="' + value
+                        .type_contract_id + '">' + value.name  +'</option>');
                 });
             }
         });
@@ -200,25 +199,24 @@
             url: "{{ route('getLocationpayrolls') }}?employee_id="+countryId,
             type: 'get',
             success: function (res) {
-                // $('#ubicacion').html("<option value='0' disabled>{{ __('Select Sub secretary')}}</option>");
+                $('#ubicacion').html("<option value='0' disabled>{{ __('Seleccionar localización')}}</option>");
                 $.each(res, function (key, value) {
-                    // $('#ubicacion').append('<option value="' + value
-                    //     .location_id + '">' + value.name  +'</option>');
-                    $('#ubicacion').val(value.name);
+                    $('#ubicacion').append('<option value="' + value
+                        .location_id + '">' + value.name  +'</option>');
                 });
             }
         });
-        $.ajax({
-            url: "{{ route('getPayrollDeductions') }}?employee_id="+countryId,
-            type: 'get',
-            success: function (res) {
-                $('#payroll_id').html("<option value='0' disabled>{{ __('Select deduction')}}</option>");
-                $.each(res, function (key, value) {
-                    $('#payroll_id').append('<option value="' + value
-                        .payroll_id + '">' + value.key  +' - '+value.description+'</option>');
-                });
-            }
-        });
+        // $.ajax({
+        //     url: "{{ route('getPayrollDeductions') }}?employee_id="+countryId,
+        //     type: 'get',
+        //     success: function (res) {
+        //         $('#payroll_id').html("<option value='0' disabled>{{ __('Select deduction')}}</option>");
+        //         $.each(res, function (key, value) {
+        //             $('#payroll_id').append('<option value="' + value
+        //                 .payroll_id + '">' + value.key  +' - '+value.description+'</option>');
+        //         });
+        //     }
+        // });
         $.ajax({
             url: "{{ route('getPerceptions') }}?employee_id="+countryId,
             type: 'get',
@@ -244,7 +242,7 @@
                                                     // alert(value2.sum)
                                                     other_perception = parseFloat(value2.sum);
                                                     $('#suma_percepcion').append('<td width="10%" style="text-align: center; border: 0px solid black; ">'+ value.name + ':</td>');
-                                                    $('#datos_percepcion').append('<td width="10%" style="text-align: center;"><input id="percepcion_'+value.perception_id+'" name="percepcion_'+value.perception_id+'" type="number" step="0.01" value="'+other_perception+'" required readonly/></td>');
+                                                    $('#datos_percepcion').append('<td width="10%" style="text-align: center;"><input id="percepcion_'+value.perception_id+'" name="percepcion_'+value.perception_id+'" type="number" step="0.01" value="'+other_perception+'" required/></td>');
                                                 }
                                             }, 500);
                                     }
@@ -257,7 +255,14 @@
                                 }
                             });
                             
-                });        
+                });
+                // setTimeout(function() {
+                //     $('#datos_percepcion').append('<td width="10%" style="text-align: center;"><input type="button" value="Calcular" id="boton" style="background-color: #646464 ; border: none; color: white; padding: 4px 8px; text-decoration: none; margin: 4px 2px; cursor: pointer;"/></td>');
+                //     let p = document.getElementById("boton");
+                //     p.onclick = muestraAlerta;  
+                // }, 1000);
+                // $('#datos_percepcion').append('<td width="10%" style="text-align: center;"><input type="button" value="Calcular" id="boton" style="background-color: #646464 ; border: none; color: white; padding: 4px 8px; text-decoration: none; margin: 4px 2px; cursor: pointer;"/></td>');
+                          
             }
         });
 
@@ -274,7 +279,7 @@
                     // $('#deduction').append('<td width="10%" style="text-align: center;">' + value.key  + '</td>');
                             
                     isr = (salario-tabulador_inicial)*porcentaje+tabulador_anterior;
-                            
+                    // alert("Calculando....");   
                     setTimeout(function() {
                         $.ajax({
                             url: "{{ route('getDeductions_employee') }}?employee_id="+countryId,
@@ -282,19 +287,26 @@
                             success: function (res2) {
                                 $.each(res2, function (key2, value2) {
                                     if (value.deduction_id != "2") {
+                                        setTimeout(function() {
+                                            if(value.deduction_id == value2.deduction_id){
+                                                // alert(value2.sum);
+                                                other_deduction = parseFloat(value2.sum);
+                                                $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+other_deduction.toFixed(2)+'" required/></td>');
+                                            }
+                                        }, 500);
+                                    }else{
                                         if(value.deduction_id == value2.deduction_id){
-                                            // alert(value2.sum);
+                                            // alert(value2.sum)
                                             other_deduction = parseFloat(value2.sum);
                                             $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+other_deduction.toFixed(2)+'" required readonly/></td>');
                                         }
-                                    }else{
-                                        setTimeout(function() {
+                                        /*setTimeout(function() {
                                             if(value.deduction_id == value2.deduction_id){
                                                 // alert(value2.sum)
                                                 other_deduction = parseFloat(value2.sum);
                                                 $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+other_deduction.toFixed(2)+'" required readonly/></td>');
                                             }
-                                        }, 500);
+                                        }, 500);*/
                                     }
                                 });
                             }
@@ -367,7 +379,7 @@
                 suma = suma - resta;
                 $('#totales').append('<td width="100%" colspan="6" style="text-align: right;">'+
                                     '<br><label for="">Total: </label>'+
-                                    '<input type="number" id="total" name="total" value="'+suma.toFixed(2)+'">'+
+                                    '<input type="number" id="total" name="total" value="'+suma.toFixed(2)+'" readonly>'+
                                     '</td>'+
                                 '</tr>');
             }

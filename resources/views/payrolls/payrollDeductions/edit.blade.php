@@ -293,7 +293,7 @@
                     // $('#deduction').append('<td width="10%" style="text-align: center;">' + value.key  + '</td>');
                             
                     isr = (salario-tabulador_inicial)*porcentaje+tabulador_anterior;
-                            
+                    // alert("Calculando....");   
                     setTimeout(function() {
                         $.ajax({
                             url: "{{ route('getDeductions_employee') }}?employee_id="+countryId,
@@ -301,19 +301,26 @@
                             success: function (res2) {
                                 $.each(res2, function (key2, value2) {
                                     if (value.deduction_id != "2") {
-                                        if(value.deduction_id == value2.deduction_id){
-                                            // alert(value2.sum);
-                                            other_deduction = parseFloat(value2.sum);
-                                            $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+other_deduction.toFixed(2)+'" required/></td>');
-                                        }
-                                    }else{
                                         setTimeout(function() {
+                                            if(value.deduction_id == value2.deduction_id){
+                                                // alert(value2.sum);
+                                                other_deduction = parseFloat(value2.sum);
+                                                $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+other_deduction.toFixed(2)+'" required/></td>');
+                                            }
+                                        }, 500);
+                                    }else{
+                                        if(value.deduction_id == value2.deduction_id){
+                                            // alert(value2.sum)
+                                            other_deduction = parseFloat(value2.sum);
+                                            $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+other_deduction.toFixed(2)+'" required readonly/></td>');
+                                        }
+                                        /*setTimeout(function() {
                                             if(value.deduction_id == value2.deduction_id){
                                                 // alert(value2.sum)
                                                 other_deduction = parseFloat(value2.sum);
                                                 $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+other_deduction.toFixed(2)+'" required readonly/></td>');
                                             }
-                                        }, 500);
+                                        }, 500);*/
                                     }
                                 });
                             }

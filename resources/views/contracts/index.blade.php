@@ -64,6 +64,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                    {!! $contracts->withQueryString()->links() !!}
                 </div>
             </div>
         </div>

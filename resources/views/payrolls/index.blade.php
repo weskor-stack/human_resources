@@ -58,6 +58,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                    {!! $payrolls->withQueryString()->links() !!}
                 </div>
             </div>
         </div>

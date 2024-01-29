@@ -23,7 +23,7 @@ class ContractController extends Controller
     public function index()
     {
         //
-        $contracts = Contract::all();
+        $contracts = Contract::paginate(10);
         $employees = Employee::all();
         $positions = Position::all();
         // return response()->json($contracts);

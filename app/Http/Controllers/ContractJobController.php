@@ -20,7 +20,7 @@ class ContractJobController extends Controller
     public function index()
     {
         //
-        $contract_jobs = ContractJob::all();
+        $contract_jobs = ContractJob::paginate(10);
         $contracts = Contract::all();
         $type_contracts = TypeContract::all();
         $employees = Employee::all();
@@ -51,24 +51,126 @@ class ContractJobController extends Controller
     {
         //
         if (isset($request['default'])==true) {
-            $contract_jobs = $request->except('_token','employee','bank_id','status_bank_account_id','account','clabe','card','default');
+            $contract_jobs = $request->except('_token','employee','bank_id','status_bank_account_id','account','clabe','card','default','observation');
         }else{
-            $contract_jobs = $request->except('_token','employee','bank_id','status_bank_account_id','account','clabe','card');
+            $contract_jobs = $request->except('_token','employee','bank_id','status_bank_account_id','account','clabe','card','observation');
         }
         
         $banck_account = $request->except('_token','employee','contract_id','type_payment_id','salary');
+
+        if ($banck_account['observation']==null) {
+            $banck_account['observation']='-';
+        }
+        // return response()->json($banck_account);
+        
         if ($request['type_payment_id']=="1") {
             # code...
             if (isset($banck_account['default'])==true) {
                 $banck_account['default']='1';
                 $banck_account['employee_id']=$request['employee'];
+
+                if ($banck_account['account']==null) {
+                    # code...
+                    if ($banck_account['clabe']==null) {
+                        if ($banck_account['card']==null) {
+                            return '<script>
+                                alert("'.__('Alerta:').'\n'.__('Faltan registros').'\n'.__('Minimo debes cargar una cuenta, un número de clabe o el número de una tarjeta').'"); 
+                                javascript:history.go(-1); 
+                            </script>';
+                        }else{
+                            $banck_account['account']='-';
+                            $banck_account['clabe'] = '-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }else{
+                        $banck_account['account']='-';
+                        if ($banck_account['card']==null) {
+                            $banck_account['card']='-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }else{
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }
+                }else{
+                    if ($banck_account['clabe']==null) {
+                        $banck_account['clabe'] = '-';
+                        if ($banck_account['card']==null) {
+                            $banck_account['card'] = '-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }else{
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }else{
+                        if ($banck_account['card']==null) {
+                            $banck_account['card']='-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }else{
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }
+                }
                 // return response()->json($banck_account);
-                BankAccount::insert($banck_account);
+                // BankAccount::insert($banck_account);
             }else{
                 $banck_account['default']='2';
                 $banck_account['employee_id']=$request['employee'];
+
+                if ($banck_account['account']==null) {
+                    # code...
+                    if ($banck_account['clabe']==null) {
+                        if ($banck_account['card']==null) {
+                            return '<script>
+                                alert("'.__('Alerta:').'\n'.__('Faltan registros').'\n'.__('Minimo debes cargar una cuenta, un número de clabe o el número de una tarjeta').'"); 
+                                javascript:history.go(-1); 
+                            </script>';
+                        }else{
+                            $banck_account['account']='-';
+                            $banck_account['clabe'] = '-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }else{
+                        $banck_account['account']='-';
+                        if ($banck_account['card']==null) {
+                            $banck_account['card']='-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }else{
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }
+                }else{
+                    if ($banck_account['clabe']==null) {
+                        $banck_account['clabe'] = '-';
+                        if ($banck_account['card']==null) {
+                            $banck_account['card'] = '-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }else{
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }else{
+                        if ($banck_account['card']==null) {
+                            $banck_account['card']='-';
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }else{
+                            // return response()->json($banck_account);
+                            BankAccount::insert($banck_account);
+                        }
+                    }
+                }
                 // return response()->json($banck_account);
-                BankAccount::insert($banck_account);
+                // BankAccount::insert($banck_account);
             }
         }
         // return response()->json($contract_jobs);
@@ -117,7 +219,7 @@ class ContractJobController extends Controller
         $type_payments = TypePayment::select('type_payment_id','key','name','status_id')->where('status_id','=','1')->get();
         $banks = Bank::select('bank_id','key','name','description','status_id')->where('status_id','=','1')->get();
 
-        $bank_account = BankAccount::select('bank_account_id','bank_id','employee_id','status_bank_account_id','account','clabe','card','default')
+        $bank_account = BankAccount::select('bank_account_id','bank_id','employee_id','status_bank_account_id','account','clabe','card','default','observation')
         ->where('employee_id','=',$contracts[0]->employee_id)->get();
 
         if($bank_account == "[]"){
@@ -138,17 +240,20 @@ class ContractJobController extends Controller
     {
         //
         if (isset($request['default'])==true) {
-            $contract_jobs = $request->except('_token','_method','employee','bank_id','status_bank_account_id','account','clabe','card','default');
+            $contract_jobs = $request->except('_token','_method','employee','bank_id','status_bank_account_id','account','clabe','card','default','observation');
         }else{
-            $contract_jobs = $request->except('_token','_method','employee','bank_id','status_bank_account_id','account','clabe','card');
+            $contract_jobs = $request->except('_token','_method','employee','bank_id','status_bank_account_id','account','clabe','card','observation');
         }
 
         $banck_account = $request->except('_token','_method','employee','contract_id','type_payment_id','salary');
 
-        $bank_account = BankAccount::select('bank_account_id','bank_id','employee_id','status_bank_account_id','account','clabe','card','default')
+        $bank_account = BankAccount::select('bank_account_id','bank_id','employee_id','status_bank_account_id','account','clabe','card','default','observation')
         ->where('employee_id','=',$request->employee)->get();
 
-        // return response()->json($request->employee);
+        if ($banck_account['observation']==null) {
+            $banck_account['observation']='-';
+        }
+        // return response()->json($banck_account);
 
         if ($request['type_payment_id']=="1") {
             # code...
@@ -156,25 +261,230 @@ class ContractJobController extends Controller
                 if (isset($banck_account['default'])==true) {
                     $banck_account['default']='1';
                     $banck_account['employee_id']=$request['employee'];
+
+                    if ($banck_account['account']==null) {
+                        # code...
+                        if ($banck_account['clabe']==null) {
+                            if ($banck_account['card']==null) {
+                                return '<script>
+                                    alert("'.__('Alerta:').'\n'.__('Faltan registros').'\n'.__('Minimo debes cargar una cuenta, un número de clabe o el número de una tarjeta').'"); 
+                                    javascript:history.go(-1); 
+                                </script>';
+                            }else{
+                                $banck_account['account']='-';
+                                $banck_account['clabe'] = '-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }else{
+                            $banck_account['account']='-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }
+                    }else{
+                        if ($banck_account['clabe']==null) {
+                            $banck_account['clabe'] = '-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card'] = '-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }else{
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }
+                    }
                     // return response()->json($banck_account);
-                    BankAccount::insert($banck_account);
+                    // BankAccount::insert($banck_account);
                 }else{
                     $banck_account['default']='2';
                     $banck_account['employee_id']=$request['employee'];
                     // return response()->json($banck_account);
-                    BankAccount::insert($banck_account);
+                    if ($banck_account['account']==null) {
+                        # code...
+                        if ($banck_account['clabe']==null) {
+                            if ($banck_account['card']==null) {
+                                return '<script>
+                                    alert("'.__('Alerta:').'\n'.__('Faltan registros').'\n'.__('Minimo debes cargar una cuenta, un número de clabe o el número de una tarjeta').'"); 
+                                    javascript:history.go(-1); 
+                                </script>';
+                            }else{
+                                $banck_account['account']='-';
+                                $banck_account['clabe'] = '-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }else{
+                            $banck_account['account']='-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }
+                    }else{
+                        if ($banck_account['clabe']==null) {
+                            $banck_account['clabe'] = '-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card'] = '-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }else{
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                BankAccount::insert($banck_account);
+                            }
+                        }
+                    }
+                    // BankAccount::insert($banck_account);
                 }
             }else{
                 if (isset($banck_account['default'])==true) {
                     $banck_account['default']='1';
                     $banck_account['employee_id']=$request['employee'];
                     // return response()->json($banck_account);
-                    BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                    
+                    if ($banck_account['account']==null) {
+                        # code...
+                        if ($banck_account['clabe']==null) {
+                            if ($banck_account['card']==null) {
+                                return '<script>
+                                    alert("'.__('Alerta:').'\n'.__('Faltan registros').'\n'.__('Minimo debes cargar una cuenta, un número de clabe o el número de una tarjeta').'"); 
+                                    javascript:history.go(-1); 
+                                </script>';
+                            }else{
+                                $banck_account['account']='-';
+                                $banck_account['clabe'] = '-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }else{
+                            $banck_account['account']='-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }
+                    }else{
+                        if ($banck_account['clabe']==null) {
+                            $banck_account['clabe'] = '-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card'] = '-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }else{
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }
+                    }
+                    // BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
                 }else{
                     $banck_account['default']='2';
                     $banck_account['employee_id']=$request['employee'];
                     // return response()->json($banck_account);
-                    BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+
+                    if ($banck_account['account']==null) {
+                        # code...
+                        if ($banck_account['clabe']==null) {
+                            if ($banck_account['card']==null) {
+                                return '<script>
+                                    alert("'.__('Alerta:').'\n'.__('Faltan registros').'\n'.__('Minimo debes cargar una cuenta, un número de clabe o el número de una tarjeta').'"); 
+                                    javascript:history.go(-1); 
+                                </script>';
+                            }else{
+                                $banck_account['account']='-';
+                                $banck_account['clabe'] = '-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }else{
+                            $banck_account['account']='-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }
+                    }else{
+                        if ($banck_account['clabe']==null) {
+                            $banck_account['clabe'] = '-';
+                            if ($banck_account['card']==null) {
+                                $banck_account['card'] = '-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }else{
+                            if ($banck_account['card']==null) {
+                                $banck_account['card']='-';
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }else{
+                                // return response()->json($banck_account);
+                                // BankAccount::insert($banck_account);
+                                BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
+                            }
+                        }
+                    }
+                    // BankAccount::where('employee_id','=',$request->employee) -> update($banck_account);
                 }
             }
         }else{

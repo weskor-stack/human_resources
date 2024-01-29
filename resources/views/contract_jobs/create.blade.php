@@ -74,22 +74,27 @@
 
                             <div id="cuenta" hidden>
                                 <x-label for="account" value="{{ __('Cuenta') }}" />
-                                <x-input id="account" class="block mt-1 w-full" maxlength="20" type="text" name="account" :value="old('account')"  autofocus autocomplete="account" />
+                                <x-input id="account" class="block mt-1 w-full" maxlength="20" type="text" name="account" :value="old('account')"  autofocus autocomplete="account" onkeyup="myFunction()"/>
                             </div>
 
                             <div id="cuenta_clabe" hidden>
                                 <x-label for="clabe" value="{{ __('Clabe') }}" />
-                                <x-input id="clabe" class="block mt-1 w-full" maxlength="18" type="text" name="clabe" :value="old('clabe')"  autofocus autocomplete="clabe" />
+                                <x-input id="clabe" class="block mt-1 w-full" maxlength="18" type="text" name="clabe" :value="old('clabe')"  autofocus autocomplete="clabe" onkeyup="myFunction()"/>
                             </div>
 
                             <div id="tarjeta" hidden>
                                 <x-label for="card" value="{{ __('Tarjeta') }}" />
-                                <x-input id="card" class="block mt-1 w-full" maxlength="16" type="text" name="card" :value="old('card')"  autofocus autocomplete="card" />
+                                <x-input id="card" class="block mt-1 w-full" maxlength="16" type="text" name="card" :value="old('card')"  autofocus autocomplete="card" onkeyup="myFunction()"/>
                             </div>
 
                             <div id="predeterminada" hidden>
                                 <x-label for="default" value="{{ __('Cuenta predeterminada') }}" />
                                 <input type="checkbox" name="default" id="default">
+                            </div>
+
+                            <div id="observacion" hidden>
+                                <x-label for="observation" value="{{ __('Observaciones') }}:" />
+                                <textarea id="observation" name="observation" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-800 focus:border-blue-800 dark:bg-white dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-800 dark:focus:border-blue-800" placeholder="Observaciones" > </textarea>
                             </div>
                         </div>
 
@@ -97,7 +102,7 @@
 
                         <div id="salario" hidden>
                             <x-label for="salary" value="{{ __('Salario') }}" />
-                            <x-input id="salary" class="block mt-1 w-full" type="number" name="salary" :value="old('salary')" step="0.01" required autofocus autocomplete="salary" />
+                            <x-input id="salary" class="block mt-1 w-full" type="number" name="salary" :value="old('salary')" step="0.01" min="0" required autofocus autocomplete="salary" />
                         </div>
 
                         <div hidden>
@@ -105,11 +110,17 @@
                             <x-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required autofocus autocomplete="user_id" value="{{ Auth::user()->id }}" />
                         </div>
  
-                        <div class="flex mt-4">
-                            <x-button>
+                        <div id="boton" hidden>
+                            <x-button class="flex mt-4">
                                 {{ __('Aceptar') }}
                             </x-button>
                         </div>
+
+                        <!-- <div class="flex mt-4" id="boton" hidden>
+                            <x-button>
+                                {{ __('Aceptar') }}
+                            </x-button>
+                        </div> -->
                 </div>
             </div>
         </div>
@@ -123,7 +134,7 @@
         $('#employee').on('change', function () {
             document.getElementById("field").removeAttribute("hidden","");
             document.getElementById("tipo_pago").removeAttribute("hidden","");
-            document.getElementById("salario").removeAttribute("hidden","");
+            // document.getElementById("salario").removeAttribute("hidden","");
             var countryId = $(this).val();
             // document.getElementById('contract_id').value= countryId;
             // $('#undersecreatries').html('');
@@ -165,6 +176,8 @@
                 document.getElementById("cuenta_clabe").removeAttribute("hidden","");
                 document.getElementById("tarjeta").removeAttribute("hidden","");
                 document.getElementById("predeterminada").removeAttribute("hidden","");
+                document.getElementById("observacion").removeAttribute("hidden","");
+                document.getElementById("salario").hidden = true;
                 // alert(tipoPago);
             }else{
                 document.getElementById("titulo_cuenta").hidden = true;
@@ -173,7 +186,30 @@
                 document.getElementById("cuenta_clabe").hidden = true;
                 document.getElementById("tarjeta").hidden = true;
                 document.getElementById("predeterminada").hidden = true;
+                document.getElementById("observacion").hidden = true;
+                document.getElementById("salario").removeAttribute("hidden","");
             }
         });
     });
+    function myFunction() {
+        let x = document.getElementById("account");
+        let clabe = document.getElementById("clabe");
+        let card = document.getElementById("card");
+
+        if(x.value.length == 20 || clabe.value.length == 18 || card.value.length == 16){
+            document.getElementById("salario").removeAttribute("hidden","");
+            document.getElementById("boton").removeAttribute("hidden","");
+        }else{
+            document.getElementById("salario").hidden = true;
+            document.getElementById("boton").hidden = true;
+        }
+        // valor_cuenta = x.value;
+        // if (x.value.length==20) {
+        //     document.getElementById("salario").removeAttribute("hidden","");
+        //     // alert(x.value);
+        // }else{
+        //     document.getElementById("salario").hidden = true;
+        // }
+        // alert(x.value);
+    }
 </script>

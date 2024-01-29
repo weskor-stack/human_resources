@@ -300,7 +300,7 @@
                 $.ajax({
                     url: "{{ route('getDeductions_payroll') }}",
                     type: 'get',
-                    
+                    // alert("Cargando...")
                     success: function (res) {
                         
                         $.each(res, function (key, value) {
@@ -310,7 +310,7 @@
                             // $('#deduction').append('<td width="10%" style="text-align: center;">' + value.key  + '</td>');
                             
                             isr = (salario-tabulador_inicial)*porcentaje+tabulador_anterior;
-                            
+                            // alert("Calculando....");     
                             setTimeout(function() {
                                 if (value.deduction_id == "2") {
                                     $('#deduction_data').append('<td width="10%" style="text-align: center;"><input id="deduccion_'+value.key+'" name="deduccion_'+value.deduction_id+'" type="number" step="0.01" value="'+isr.toFixed(2)+'" required readonly/></td>');
@@ -367,7 +367,8 @@
                         if (name_data[0] == 'percepcion') {
                             if (name_data[1] == 1) {
                                 // alert(allInputs[i].value);
-                                salarios=salario/2;
+                                // salarios=salario/2;
+                                salarios=(salario)/2;
                                 allInputs[i].value=salarios.toFixed(2);
                                 suma = suma + parseFloat(allInputs[i].value);
                                 // alert(salarios);
@@ -376,8 +377,10 @@
                             }
                         }else{
                             if (name_data[1] == 2) {
+                                // allInputs[i].value=quincena.toFixed(2);
                                 allInputs[i].value=quincena.toFixed(2);
                                 resta = resta + parseFloat(allInputs[i].value);
+                                // resta = 0;
                             }else{
                                 resta = resta + parseFloat(allInputs[i].value);
                             }

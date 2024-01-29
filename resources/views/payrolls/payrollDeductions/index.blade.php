@@ -11,7 +11,9 @@
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <br>
-                    <a href="{{ route('payroll_deductions.create', 'list='.$_GET['list']) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar +</a> <br><br>
+                    <a href="{{ route('payroll_deductions.create', 'list='.$_GET['list']) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar +</a> |
+
+                    <a href="{{ route('report', 'list='.$_GET['list']) }}"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Reporte</a> <br><br>
                     
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-pink-900 dark:text-gray-400">
                         <tr>
@@ -55,6 +57,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                    {!! $employees->withQueryString()->links() !!}
                 </div>
             </div>
         </div>

@@ -36,6 +36,9 @@ Route::middleware([
 
     Route::resource('payrolls', \App\Http\Controllers\PayrollController::class);
     Route::resource('payroll_deductions', \App\Http\Controllers\PayrollDeductionController::class);
+
+    Route::get('report', [\App\Http\Controllers\PayrollDeductionController::class, 'report'])->name('report');
+
     Route::resource('payroll_perceptions', \App\Http\Controllers\PayrollPerceptionController::class);
 
     Route::resource('income_taxes', \App\Http\Controllers\IncomeTaxController::class);

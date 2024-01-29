@@ -5,14 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Payroll_deduction;
 use App\Models\Payroll_perception;
 use App\Models\Employee;
+use App\Models\Bank;
+use App\Models\BankAccount;
 use App\Models\Contract;
 use App\Models\ContractJob;
+use App\Models\Position;
+use App\Models\Department;
+use App\Models\Unit;
 use App\Models\Payroll;
+use App\Models\Personal_data;
 use App\Models\Deduction;
+use App\Models\Management;
+use App\Models\Undersecretary;
+use App\Models\Secretary;
+use App\Models\TypePayment;
 use App\Models\PayrollEmploye;
+use App\Models\BudgetCode;
 use App\Http\Requests\StorePayroll_deductionRequest;
 use App\Http\Requests\UpdatePayroll_deductionRequest;
 use DB;
+
+use Illuminate\Http\Request;
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class PayrollDeductionController extends Controller
 {
@@ -26,7 +43,7 @@ class PayrollDeductionController extends Controller
         // return response()->json($datas);
         $payrolls = Payroll_deduction::all();
         $employees = Employee::where('status_employee_id','=','1')->select('employee_id','name','last_name1','last_name2')->whereIn('employee_id', Payroll_perception::select('employee_id')->where('status_employee_id', '=', 1))->get();
-        $employees = Employee::where('status_employee_id','=','1')->select('employee_id','name','last_name1','last_name2')->whereIn('employee_id', Payroll_perception::select('employee_id')->where('payroll_id', '=', $datas))->get();
+        $employees = Employee::where('status_employee_id','=','1')->select('employee_id','name','last_name1','last_name2')->whereIn('employee_id', Payroll_perception::select('employee_id')->where('payroll_id', '=', $datas))->paginate(10);
 
         // $employees = Employee::all();
         // return response()->json($employees);
@@ -226,5 +243,230 @@ class PayrollDeductionController extends Controller
         return response()->json($payroll_deduction);
         $payroll_deduction->delete();
         return redirect()->route('payroll_deductions.index');
+    }
+
+    public function report()
+    {
+        $datas = $_GET['list'];
+        $employees = Employee::where('status_employee_id','=','1')->select('employee_id','name','last_name1','last_name2','create_time')->whereIn('employee_id', Payroll_perception::select('employee_id')->where('payroll_id', '=', $datas))->get();
+        $payrolls = Payroll::select('description','start_date')->where('payroll_id','=',$datas)->where('status_payroll_id','=',1)->get();
+        $num = 1;
+        $row = 8;
+        $percepcion = 0;
+        $deduccion = 0;
+        $resultado = 0;
+        // return response()->json($employees);
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+        $activeWorksheet->getColumnDimension('A')->setWidth(6);
+        $activeWorksheet->getColumnDimension('B')->setWidth(20);
+        $activeWorksheet->getColumnDimension('C')->setWidth(50);
+        $activeWorksheet->getColumnDimension('D')->setWidth(50);
+        $activeWorksheet->getColumnDimension('E')->setWidth(60);
+        $activeWorksheet->getColumnDimension('F')->setWidth(20);
+        $activeWorksheet->getColumnDimension('G')->setWidth(20);
+        $activeWorksheet->getColumnDimension('H')->setWidth(20);
+        $activeWorksheet->getColumnDimension('I')->setWidth(20);
+        $activeWorksheet->getColumnDimension('J')->setWidth(30);
+        $activeWorksheet->getColumnDimension('K')->setWidth(30);
+        $activeWorksheet->getColumnDimension('L')->setWidth(30);
+        $activeWorksheet->getColumnDimension('M')->setWidth(35);
+        $activeWorksheet->getColumnDimension('N')->setWidth(35);
+        $activeWorksheet->getColumnDimension('O')->setWidth(35);
+        $activeWorksheet->getColumnDimension('P')->setWidth(35);
+        $activeWorksheet->getColumnDimension('Q')->setWidth(20);
+        $activeWorksheet->getColumnDimension('R')->setWidth(20);
+        $activeWorksheet->getColumnDimension('S')->setWidth(20);
+        $activeWorksheet->getColumnDimension('T')->setWidth(30);
+        $activeWorksheet->getColumnDimension('U')->setWidth(20);
+        $activeWorksheet->getColumnDimension('V')->setWidth(30);
+        $activeWorksheet->getColumnDimension('W')->setWidth(30);
+        $activeWorksheet->getStyle('A7:W7')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => '000000'],]);
+
+        $activeWorksheet->getStyle('A7:W7')->getFont()->setSize(14)->setBold(true)->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);   
+    
+        $activeWorksheet->getStyle('A7:W7')->getAlignment()->setHorizontal('center');
+        $activeWorksheet->getStyle('A7:W7')->getAlignment()->setVertical('center');
+
+        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+
+        $drawing->setName('Logo');
+        $drawing->setPath('./img/finanzas.png');
+        $drawing->setCoordinates('A1');
+        $drawing->setWorksheet($activeWorksheet);
+
+        $activeWorksheet->mergeCells('A1:J1');
+        $activeWorksheet->mergeCells('A2:J2');
+        $activeWorksheet->mergeCells('A3:J3');
+        $activeWorksheet->mergeCells('A5:J5');
+
+        $activeWorksheet->getRowDimension(7)->setRowHeight(30);
+
+        $activeWorksheet->setCellValue('A1', 'SECRETARIA DE FINANZAS');
+        $activeWorksheet->getStyle('A1')->getAlignment()->setHorizontal('center');
+        $activeWorksheet->getStyle('A1')->getAlignment()->setVertical('center');
+        $activeWorksheet->getStyle('A1')->getFont()->setSize(14)->setBold(true)->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_BLACK);
+
+        $activeWorksheet->setCellValue('A2', 'DIRECCIÓN ADMINISTRATIVA');
+        $activeWorksheet->getStyle('A2')->getAlignment()->setHorizontal('center');
+        $activeWorksheet->getStyle('A2')->getAlignment()->setVertical('center');
+        $activeWorksheet->getStyle('A2')->getFont()->setSize(14)->setBold(true)->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_BLACK);
+
+        $activeWorksheet->setCellValue('A3', 'DEPARTAMENTO DE RECURSOS HUMANOS');
+        $activeWorksheet->getStyle('A3')->getAlignment()->setHorizontal('center');
+        $activeWorksheet->getStyle('A3')->getAlignment()->setVertical('center');
+        $activeWorksheet->getStyle('A3')->getFont()->setSize(14)->setBold(true)->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_BLACK);
+
+        $activeWorksheet->setCellValue('A5', 'PLANTILLA DE HONORARIO ASIMILABLES A SALARIOS CORRESPONDIENTE A LA NÓMINA '.$payrolls[0]['description'].' '.$payrolls[0]['start_date']);
+        $activeWorksheet->getStyle('A5')->getAlignment()->setHorizontal('center');
+        $activeWorksheet->getStyle('A5')->getAlignment()->setVertical('center');
+        $activeWorksheet->getStyle('A5')->getFont()->setSize(14)->setBold(true)->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_BLACK);
+
+        $activeWorksheet->setCellValue('A7', 'ID');
+        $activeWorksheet->setCellValue('B7', 'RFC');
+        $activeWorksheet->setCellValue('C7', 'NOMBRE');
+        $activeWorksheet->setCellValue('D7', 'DEPARTAMENTO');
+        $activeWorksheet->setCellValue('E7', 'DIRECCIÓN O SUBSECRETARIA');
+        $activeWorksheet->setCellValue('F7', 'SALARIO');
+        $activeWorksheet->setCellValue('G7', 'ISSS');
+        $activeWorksheet->setCellValue('H7', 'PENSIÓN');
+        $activeWorksheet->setCellValue('I7', 'INASIS');
+        $activeWorksheet->setCellValue('J7', 'NETO');
+        $activeWorksheet->setCellValue('K7', 'MENSUAL');
+        $activeWorksheet->setCellValue('L7', 'FORMA DE PAGO');
+        $activeWorksheet->setCellValue('M7', 'CATEGORIA');
+        $activeWorksheet->setCellValue('N7', 'PARTIDA');
+        $activeWorksheet->setCellValue('O7', 'CURP');
+        $activeWorksheet->setCellValue('P7', 'FECHA DE NACIMIENTO');
+        $activeWorksheet->setCellValue('Q7', 'SEXO');
+        $activeWorksheet->setCellValue('R7', 'FECHA DE ALTA');
+        $activeWorksheet->setCellValue('S7', 'TIPO_PAGO');
+        $activeWorksheet->setCellValue('T7', 'BANCO dispersión');
+        $activeWorksheet->setCellValue('U7', 'BANCO');
+        $activeWorksheet->setCellValue('V7', 'FOLNORTE');
+        $activeWorksheet->setCellValue('W7', 'CUENTA');
+        
+        foreach ($employees as $employee =>$value) {
+            // return response()->json($value);
+            $datosPersonales = Personal_data::select('date_birth','rfc','gender','curp')->where('employee_id','=',$value['employee_id'])->get();
+            $contrato = Contract::select('contract_id','position_id','type_contract_id','start_date','end_date','check_attendance','status_contract_id')
+            ->where('employee_id','=',$value['employee_id'])
+            ->where('status_contract_id','=','1')->get();
+            
+            $puesto = Position::select('key','name','department_id','status_id','location_id','address','type_position_id')->where('position_id','=',$contrato[0]['position_id'])
+            ->where('status_id','=','1')->get();
+
+            // return response()->json($puesto);
+
+            $department = Department::select('key','name','unit_id','status_id')->where('department_id','=',$puesto[0]['department_id'])
+            ->where('status_id','=','1')->get();
+
+            $unidad = Unit::select('key','name','management_id','status_id')->where('unit_id','=',$department[0]['unit_id'])
+            ->where('status_id','=','1')->get();
+
+            $direccion = Management::select('key','name','undersecretary_id','status_id')->where('management_id','=',$unidad[0]['management_id'])
+            ->where('status_id','=','1')->get();
+            
+            $subSecretaria = Undersecretary::select('key','name','secretary_id','status_id')->where('undersecretary_id','=',$direccion[0]['undersecretary_id'])
+            ->where('status_id','=','1')->get();
+
+            $secretaria = Secretary::select('key','name','status_id')->where('secretary_id','=',$subSecretaria[0]['secretary_id'])
+            ->where('status_id','=','1')->get();
+
+            $salario = ContractJob::select('salary','contract_id','type_payment_id')->where('contract_id','=',$contrato[0]['contract_id'])->get();
+
+            $tipoPago = TypePayment::select('type_payment_id','key','name')->where('type_payment_id','=',$salario[0]['type_payment_id'])->get();
+            // return response()->json($tipoPago);
+
+            $isr = Payroll_deduction::select('deduction_id','sum')->where('employee_id','=',$value['employee_id'])->where('deduction_id','=',2)->get();
+            $isr = $isr[0]['sum'];
+
+            $percepciones = Payroll_perception::select('perception_id','sum')->where('employee_id','=',$value['employee_id'])->get();
+            $deducciones = Payroll_deduction::select('deduction_id','sum')->where('employee_id','=',$value['employee_id'])->get();
+
+            $activeWorksheet->setCellValue('A'.$row, $value['employee_id']);
+            $activeWorksheet->setCellValue('B'.$row, $datosPersonales[0]['rfc']);
+            $activeWorksheet->setCellValue('C'.$row, $value['name'].' '.$value['last_name1'].' '.$value['last_name2']);
+            $activeWorksheet->setCellValue('D'.$row, $department[0]['name']);
+            $activeWorksheet->setCellValue('E'.$row, $direccion[0]['name']);
+            $activeWorksheet->setCellValue('F'.$row, $salario[0]['salary']);
+            $activeWorksheet->setCellValue('G'.$row, $isr);//ISR
+            $activeWorksheet->setCellValue('H'.$row, '-');
+            $activeWorksheet->setCellValue('I'.$row, '-');
+
+            if ($contrato[0]['check_attendance']==2) {
+                $percepcion = 0;
+                $deduccion = 0;
+                $resultado = 0;
+                foreach ($percepciones as $key) {
+                    $percepcion = $percepcion + $key['sum'];
+                }
+    
+                foreach ($deducciones as $key) {
+                    # code...
+                    $deduccion = $deduccion + $key['sum'];
+                }
+                $resultado = $percepcion - $deduccion;
+            }elseif($contrato[0]['check_attendance']==1){
+                $percepcion = 0;
+                $deduccion = 0;
+                $resultado = 0;
+                foreach ($percepciones as $key) {
+                    // return response()->json($percepcion);
+                    $percepcion = $percepcion + $key['sum'];
+                }
+    
+                // return response()->json($percepcion);
+                foreach ($deducciones as $key) {
+                    # code...
+                    $deduccion = $deduccion + $key['sum'];
+                }
+                $resultado = $percepcion - $deduccion;
+                // return response()->json($resultado);
+            }
+            
+
+            $budgetCode = BudgetCode::select('key','name','description','status_id')->where('status_id','=','1')->get();
+            $activeWorksheet->setCellValue('J'.$row, $percepciones[0]['sum']);//NETO
+            $activeWorksheet->setCellValue('K'.$row, $resultado);//MENSUAL
+            $activeWorksheet->setCellValue('L'.$row, $tipoPago[0]['name']);
+            $activeWorksheet->setCellValue('M'.$row, $puesto[0]['type_position_id']);
+            $activeWorksheet->setCellValue('N'.$row, $budgetCode[0]['key']);//PARTIDA tabla: budget_code
+            $activeWorksheet->setCellValue('O'.$row, $datosPersonales[0]['curp']);
+            $activeWorksheet->setCellValue('P'.$row, $datosPersonales[0]['date_birth']);
+
+            $genero = $datosPersonales[0]['gender']=1 ? 'Masculino' : 'Femenino';
+            // return response()->json($genero);
+            $activeWorksheet->setCellValue('Q'.$row, $genero);
+            $activeWorksheet->setCellValue('R'.$row, $contrato[0]['start_date']);
+            $activeWorksheet->setCellValue('S'.$row, $tipoPago[0]['name']);
+
+            if ($salario[0]['type_payment_id'] == 2) {
+                $activeWorksheet->setCellValue('T'.$row, '-');
+                $activeWorksheet->setCellValue('U'.$row, '-');
+                $activeWorksheet->setCellValue('V'.$row, '-');
+                $activeWorksheet->setCellValue('W'.$row, '-');
+            }else{
+                $cuenta = BankAccount::select('bank_id','account','clabe','card','observation')->where('employee_id','=',$value['employee_id'])->get();
+                $banco = Bank::select('name','description')->where('bank_id','=',$cuenta[0]['bank_id'])->get();
+                $activeWorksheet->setCellValue('T'.$row, $banco[0]['name']);
+                $activeWorksheet->setCellValue('U'.$row, $banco[0]['name']);
+                $activeWorksheet->setCellValue('V'.$row, $cuenta[0]['observation']);
+                $activeWorksheet->setCellValue('W'.$row, $cuenta[0]['account']);
+            }
+            // return response()->json($datosPersonales[0]);
+            $row = $row + 1;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Reporte_nomina.xlsx"');
+        header('Cache-Control: max-age=0');
+        
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');   
+        //return response()->json($employees);
     }
 }
