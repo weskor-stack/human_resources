@@ -19,6 +19,7 @@ use App\Models\Management;
 use App\Models\Undersecretary;
 use App\Models\Secretary;
 use App\Models\TypePayment;
+use App\Models\TypePosition;
 use App\Models\PayrollEmploye;
 use App\Models\BudgetCode;
 use App\Http\Requests\StorePayroll_deductionRequest;
@@ -195,7 +196,7 @@ class PayrollDeductionController extends Controller
         $payrolls_perceptions;
         $payrolls_deductions;
 
-        // return response()->json($request);
+        return response()->json($request);
         foreach ($payrolls as $key => $value) {
             # code...
             $perception_name = explode("_",$key);
@@ -209,6 +210,7 @@ class PayrollDeductionController extends Controller
 
                 // return response()->json(Payroll_perception::select('perception_id')->where('employee_id','=',$payrolls_perceptions['employee_id']) ->where('perception_id','=',$perception_name[1]) ->get());
                 // Payroll_perception::insert($payrolls_perceptions);
+                return response()->json($payrolls_perceptions);
                 Payroll_perception::where('perception_id','=',$perception_name[1]) -> where('employee_id','=',$payrolls['employee_id'])->update($payrolls_perceptions);
                 
             }elseif ($perception_name[0] == "deduccion") {
@@ -327,7 +329,7 @@ class PayrollDeductionController extends Controller
         $activeWorksheet->setCellValue('C7', 'NOMBRE');
         $activeWorksheet->setCellValue('D7', 'DEPARTAMENTO');
         $activeWorksheet->setCellValue('E7', 'DIRECCIÓN O SUBSECRETARIA');
-        $activeWorksheet->setCellValue('F7', 'SALARIO');
+        $activeWorksheet->setCellValue('F7', 'BRUTO');
         $activeWorksheet->setCellValue('G7', 'ISSS');
         $activeWorksheet->setCellValue('H7', 'PENSIÓN');
         $activeWorksheet->setCellValue('I7', 'INASIS');
@@ -356,6 +358,8 @@ class PayrollDeductionController extends Controller
             $puesto = Position::select('key','name','department_id','status_id','location_id','address','type_position_id')->where('position_id','=',$contrato[0]['position_id'])
             ->where('status_id','=','1')->get();
 
+            $typePosotion = TypePosition::select('type_position_id','name','status_id')->where('type_position_id','=',$puesto[0]['type_position_id'])
+            ->where('status_id','=','1')->get();
             // return response()->json($puesto);
 
             $department = Department::select('key','name','unit_id','status_id')->where('department_id','=',$puesto[0]['department_id'])
@@ -389,8 +393,8 @@ class PayrollDeductionController extends Controller
             $activeWorksheet->setCellValue('C'.$row, $value['name'].' '.$value['last_name1'].' '.$value['last_name2']);
             $activeWorksheet->setCellValue('D'.$row, $department[0]['name']);
             $activeWorksheet->setCellValue('E'.$row, $direccion[0]['name']);
-            $activeWorksheet->setCellValue('F'.$row, $salario[0]['salary']);
-            $activeWorksheet->setCellValue('G'.$row, $isr);//ISR
+            // $activeWorksheet->setCellValue('F'.$row, $salario[0]['salary']);
+            $activeWorksheet->setCellValue('G'.$row, number_format(floatval($isr),2));//ISR
             $activeWorksheet->setCellValue('H'.$row, '-');
             $activeWorksheet->setCellValue('I'.$row, '-');
 
@@ -427,32 +431,46 @@ class PayrollDeductionController extends Controller
             
 
             $budgetCode = BudgetCode::select('key','name','description','status_id')->where('status_id','=','1')->get();
-            $activeWorksheet->setCellValue('J'.$row, $percepciones[0]['sum']);//NETO
-            $activeWorksheet->setCellValue('K'.$row, $resultado);//MENSUAL
+            $activeWorksheet->setCellValue('J'.$row, number_format(floatval($resultado),2));//NETO
+            $activeWorksheet->setCellValue('F'.$row, number_format(floatval($percepciones[0]['sum']),2));
+            $activeWorksheet->setCellValue('K'.$row, number_format(floatval($salario[0]['salary']),2));//MENSUAL
             $activeWorksheet->setCellValue('L'.$row, $tipoPago[0]['name']);
-            $activeWorksheet->setCellValue('M'.$row, $puesto[0]['type_position_id']);
-            $activeWorksheet->setCellValue('N'.$row, $budgetCode[0]['key']);//PARTIDA tabla: budget_code
+            $activeWorksheet->setCellValue('M'.$row, $typePosotion[0]['name']);
+            $activeWorksheet->setCellValue('N'.$row, $budgetCode[0]['key'].'-'.$budgetCode[0]['name'].'-'.$budgetCode[0]['description']);//PARTIDA tabla: budget_code
             $activeWorksheet->setCellValue('O'.$row, $datosPersonales[0]['curp']);
             $activeWorksheet->setCellValue('P'.$row, $datosPersonales[0]['date_birth']);
 
-            $genero = $datosPersonales[0]['gender']=1 ? 'Masculino' : 'Femenino';
+            if($datosPersonales[0]['gender'] == 1){
+                $genero = 'Masculino';
+            }else{
+                $genero = 'Femenino';
+            }
+            // $genero = $datosPersonales[0]['gender']=1 ? 'Masculino' : 'Femenino';
             // return response()->json($genero);
             $activeWorksheet->setCellValue('Q'.$row, $genero);
             $activeWorksheet->setCellValue('R'.$row, $contrato[0]['start_date']);
             $activeWorksheet->setCellValue('S'.$row, $tipoPago[0]['name']);
 
             if ($salario[0]['type_payment_id'] == 2) {
-                $activeWorksheet->setCellValue('T'.$row, '-');
-                $activeWorksheet->setCellValue('U'.$row, '-');
-                $activeWorksheet->setCellValue('V'.$row, '-');
-                $activeWorksheet->setCellValue('W'.$row, '-');
+                $activeWorksheet->setCellValue('T'.$row, 'EFECTIVO');
+                $activeWorksheet->setCellValue('U'.$row, 'EFECTIVO');
+                $activeWorksheet->setCellValue('V'.$row, 'EFECTIVO');
+                $activeWorksheet->setCellValue('W'.$row, 'EFECTIVO');
             }else{
                 $cuenta = BankAccount::select('bank_id','account','clabe','card','observation')->where('employee_id','=',$value['employee_id'])->get();
                 $banco = Bank::select('name','description')->where('bank_id','=',$cuenta[0]['bank_id'])->get();
-                $activeWorksheet->setCellValue('T'.$row, $banco[0]['name']);
+                if($banco[0]['name']=='BANORTE'){
+                    $activeWorksheet->setCellValue('T'.$row, $banco[0]['name']);
+                    $activeWorksheet->setCellValue('W'.$row, $cuenta[0]['account']);
+                }else {
+                    $banco_transferencia = 'TRANSFERENCIAS BANORTE';
+                    $activeWorksheet->setCellValue('T'.$row, $banco_transferencia);
+                    $activeWorksheet->setCellValue('W'.$row, $cuenta[0]['clabe']);
+                }
+                
                 $activeWorksheet->setCellValue('U'.$row, $banco[0]['name']);
                 $activeWorksheet->setCellValue('V'.$row, $cuenta[0]['observation']);
-                $activeWorksheet->setCellValue('W'.$row, $cuenta[0]['account']);
+                
             }
             // return response()->json($datosPersonales[0]);
             $row = $row + 1;
